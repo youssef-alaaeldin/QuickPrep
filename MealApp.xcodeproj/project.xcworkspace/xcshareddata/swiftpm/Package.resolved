@@ -1,0 +1,42 @@
+{
+  "originHash" : "cf6c6f4fa36c3588ebebb805108939dba4ef65ec64c97b972cd0851466694b0a",
+  "pins" : [
+    {
+      "identity" : "alamofire?tab=readme-ov-file#installation",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire?tab=readme-ov-file#installation",
+      "state" : {
+        "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
+        "version" : "5.10.2"
+      }
+    },
+    {
+      "identity" : "factory",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hmlongco/Factory",
+      "state" : {
+        "revision" : "bc745a7766bdad645de4ee9528a5d320b1c4783f",
+        "version" : "2.4.7"
+      }
+    },
+    {
+      "identity" : "sdwebimage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SDWebImage/SDWebImage.git",
+      "state" : {
+        "revision" : "cac9a55a3ae92478a2c95042dcc8d9695d2129ca",
+        "version" : "5.21.0"
+      }
+    },
+    {
+      "identity" : "sdwebimageswiftui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SDWebImage/SDWebImageSwiftUI",
+      "state" : {
+        "revision" : "451c6dfd5ecec2cf626d1d9ca81c2d4a60355172",
+        "version" : "3.1.3"
+      }
+    }
+  ],
+  "version" : 3
+}
