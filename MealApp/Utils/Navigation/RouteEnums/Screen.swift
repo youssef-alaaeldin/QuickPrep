@@ -8,6 +8,7 @@ import Foundation
 
 enum Screen {
     case onboarding
+    case main
 }
 
 extension Screen: Identifiable {

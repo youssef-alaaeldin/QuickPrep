@@ -14,7 +14,9 @@ extension NavCoordinator {
     public func build(screen: Screen) -> some View {
         switch screen {
             case .onboarding:
-                Text("Onboarding")
+                OnboardingView()
+            case .main:
+                MainView()
         }
     }
 }
