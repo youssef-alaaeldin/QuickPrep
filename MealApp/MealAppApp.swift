@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct MealAppApp: App {
+    @StateObject var coordinator = NavCoordinator()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavCoordinatorView(coordinator: coordinator, rootView: .onboarding)
         }
     }
 }
