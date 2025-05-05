@@ -13,8 +13,8 @@ extension NavCoordinator {
     @ViewBuilder
     public func build(screen: Screen) -> some View {
         switch screen {
-        case .onboarding:
-            Text("Onboarding")
+            case .onboarding:
+                Text("Onboarding")
         }
     }
 }
