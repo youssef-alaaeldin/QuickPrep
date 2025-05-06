@@ -16,7 +16,7 @@ extension NavCoordinator {
             case .onboarding:
                 OnboardingView()
             case .main:
-                MainView()
+                BottomTabsView()
         }
     }
 }
