@@ -40,12 +40,6 @@ struct BottomTabsView: View {
     }
 }
 
-struct HomeView: View {
-    var body: some View {
-        Text("Home Screen")
-    }
-}
-
 struct SearchView: View {
     var body: some View {
         Text("Search Screen")

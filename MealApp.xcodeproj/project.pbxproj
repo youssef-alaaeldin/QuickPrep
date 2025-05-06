@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0BAEAC032DC9F760006D2E7C /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = 0BAEAC022DC9F760006D2E7C /* Factory */; };
 		0BBC2B442DC3630D00141ED7 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0BBC2B432DC3630D00141ED7 /* SDWebImageSwiftUI */; };
 		0BBC2B472DC367B900141ED7 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0BBC2B462DC367B900141ED7 /* Alamofire */; };
-		0BBC2B4A2DC367CC00141ED7 /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = 0BBC2B492DC367CC00141ED7 /* Factory */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,7 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0BBC2B4A2DC367CC00141ED7 /* Factory in Frameworks */,
+				0BAEAC032DC9F760006D2E7C /* Factory in Frameworks */,
 				0BBC2B442DC3630D00141ED7 /* SDWebImageSwiftUI in Frameworks */,
 				0BBC2B472DC367B900141ED7 /* Alamofire in Frameworks */,
 			);
@@ -136,7 +136,7 @@
 			packageProductDependencies = (
 				0BBC2B432DC3630D00141ED7 /* SDWebImageSwiftUI */,
 				0BBC2B462DC367B900141ED7 /* Alamofire */,
-				0BBC2B492DC367CC00141ED7 /* Factory */,
+				0BAEAC022DC9F760006D2E7C /* Factory */,
 			);
 			productName = MealApp;
 			productReference = 0BBC2B0C2DC3554A00141ED7 /* MealApp.app */;
@@ -223,7 +223,7 @@
 			packageReferences = (
 				0BBC2B422DC3630D00141ED7 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				0BBC2B452DC367B900141ED7 /* XCRemoteSwiftPackageReference "Alamofire" */,
-				0BBC2B482DC367CC00141ED7 /* XCRemoteSwiftPackageReference "Factory" */,
+				0BAEAC012DC9F760006D2E7C /* XCRemoteSwiftPackageReference "Factory" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 0BBC2B0D2DC3554A00141ED7 /* Products */;
@@ -586,6 +586,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0BAEAC012DC9F760006D2E7C /* XCRemoteSwiftPackageReference "Factory" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hmlongco/Factory";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.3;
+			};
+		};
 		0BBC2B422DC3630D00141ED7 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
@@ -602,17 +610,14 @@
 				minimumVersion = 5.10.2;
 			};
 		};
-		0BBC2B482DC367CC00141ED7 /* XCRemoteSwiftPackageReference "Factory" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/hmlongco/Factory";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.4.3;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0BAEAC022DC9F760006D2E7C /* Factory */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0BAEAC012DC9F760006D2E7C /* XCRemoteSwiftPackageReference "Factory" */;
+			productName = Factory;
+		};
 		0BBC2B432DC3630D00141ED7 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0BBC2B422DC3630D00141ED7 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
@@ -622,11 +627,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0BBC2B452DC367B900141ED7 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
-		};
-		0BBC2B492DC367CC00141ED7 /* Factory */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0BBC2B482DC367CC00141ED7 /* XCRemoteSwiftPackageReference "Factory" */;
-			productName = Factory;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
