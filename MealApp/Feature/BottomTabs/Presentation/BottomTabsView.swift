@@ -19,11 +19,11 @@ struct BottomTabsView: View {
                     .tabItem {
                         Label(tab.title, systemImage: tab.systemImage)
                     }
+                    .ignoresSafeArea(edges: .top)
             }
         }
         .navigationBarBackButtonHidden()
         .tint(.darkRed)
-        .cornerRadius(20)
     }
     
     private func setupTabBarAppearance() {

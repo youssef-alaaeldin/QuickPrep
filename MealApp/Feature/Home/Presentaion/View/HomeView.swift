@@ -14,7 +14,13 @@ struct HomeView: View {
         self._viewModel = StateObject(wrappedValue: .init())
     }
     var body: some View {
-        Text("Home Screen")
+        VStack {
+            TopSearchView()
+            
+            ScrollView {
+                
+            }
+        }
     }
 }
 
