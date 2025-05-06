@@ -20,26 +20,26 @@ struct Results: Codable {
     let canonicalID: String?
     let compilations: [Compilation]?
     let cookTimeMinutes: Int?
-    let country: Country?
+    let country: String?
     let createdAt: Int?
     let credits: [Credit]?
     let description: String?
-    let draftStatus: DraftStatus?
+    let draftStatus: String?
     let facebookPosts: [String]?
     let id: Int?
     let inspiredByURL: String?
     let instructions: [Instruction]?
     let isAppOnly, isOneTop, isShoppable, isSubscriberContent: Bool?
     let keywords: String?
-    let language: Language?
+    let language: String?
     let name: String?
     let numServings: Int?
     let nutrition: Nutrition?
-    let nutritionVisibility: NutritionVisibility?
+    let nutritionVisibility: String?
     let originalVideoURL: String?
     let prepTimeMinutes: Int?
     let price: Price?
-    let promotion: Promotion?
+    let promotion: String?
     let renditions: [Rendition]?
     let sections: [Section]?
     let seoPath: String?
@@ -58,7 +58,7 @@ struct Results: Codable {
     let totalTimeTier: TotalTimeTier?
     let updatedAt: Int?
     let userRatings: UserRatings?
-    let videoAdContent: VideoAdContent?
+    let videoAdContent: String?
     let videoID: Int?
     let videoURL: String?
     let yields: String?
@@ -123,20 +123,20 @@ struct Compilation: Codable {
     let beautyURL: String?
     let buzzID: Int?
     let canonicalID: String?
-    let country: Country?
+    let country: String?
     let createdAt: Int?
     let description: String?
-    let draftStatus: DraftStatus?
+    let draftStatus: String?
     let facebookPosts: [String]?
     let id: Int?
     let isShoppable: Bool?
     let keywords: String?
-    let language: Language?
+    let language: String?
     let name: String?
-    let promotion: Promotion?
+    let promotion: String?
     let show: [Show]?
     let slug: String?
-    let thumbnailAltText: ThumbnailAltText?
+    let thumbnailAltText: String?
     let thumbnailURL: String?
     let videoID: Int?
     let videoURL: String?
@@ -162,50 +162,10 @@ struct Compilation: Codable {
     }
 }
 
-enum Country: String, Codable {
-    case us = "US"
-    case zz = "ZZ"
-}
-
-enum DraftStatus: String, Codable {
-    case published = "published"
-}
-
-enum Language: String, Codable {
-    case eng = "eng"
-    case und = "und"
-}
-
-enum Promotion: String, Codable {
-    case full = "full"
-    case none = "none"
-    case partial = "partial"
-}
-
 // MARK: - Show
 struct Show: Codable {
     let id: Int?
-    let name: RecipieName?
-}
-
-enum RecipieName: String, Codable {
-    case goodful = "Goodful"
-    case tasty = "Tasty"
-    case tastyTastyJunior = "Tasty: Tasty Junior"
-    case unknown // Fallback for unexpected values
-
-        init(from decoder: Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let value = try container.decode(String.self)
-            self = RecipieName(rawValue: value) ?? .unknown
-        }
-}
-
-enum ThumbnailAltText: String, Codable {
-    case allYouNeedIsAMug = "All you need is a Mug!"
-    case empty = ""
-    case summerBreakRecipesForYourKids = "Summer Break Recipes For Your Kids"
-    case tastyFoodForEveryMood = "Tasty Food For Every Mood"
+    let name: String?
 }
 
 // MARK: - Credit
@@ -213,7 +173,7 @@ struct Credit: Codable {
     let isVerified: Bool?
     let name: String?
     let pictureURL: String?
-    let type: TypeEnum?
+    let type: String?
     let userID: Int?
 
     enum CodingKeys: String, CodingKey {
@@ -223,11 +183,6 @@ struct Credit: Codable {
         case type
         case userID = "user_id"
     }
-}
-
-enum TypeEnum: String, Codable {
-    case typeInternal = "internal"
-    case community = "community"
 }
 
 // MARK: - Instruction
@@ -273,10 +228,6 @@ struct Nutrition: Codable {
     }
 }
 
-enum NutritionVisibility: String, Codable {
-    case auto = "auto"
-}
-
 // MARK: - Price
 struct Price: Codable {
     let consumptionPortion, consumptionTotal, portion, total: Int?
@@ -295,7 +246,7 @@ struct Rendition: Codable {
     let aspect: String?
     let bitRate: Int?
     let container: String?
-    let contentType: ContentType?
+    let contentType: String?
     let duration: Int?
     let fileSize: Int?
     let height: Int?
@@ -319,11 +270,6 @@ struct Rendition: Codable {
         case posterURL = "poster_url"
         case url, width
     }
-}
-
-enum ContentType: String, Codable {
-    case applicationVndAppleMpegurl = "application/vnd.apple.mpegurl"
-    case videoMp4 = "video/mp4"
 }
 
 // MARK: - Section
@@ -378,7 +324,7 @@ struct Measurement: Codable {
 // MARK: - Unit
 struct Unit: Codable {
     let abbreviation, displayPlural, displaySingular, name: String?
-    let system: System?
+    let system: String?
 
     enum CodingKeys: String, CodingKey {
         case abbreviation
@@ -388,19 +334,13 @@ struct Unit: Codable {
     }
 }
 
-enum System: String, Codable {
-    case imperial = "imperial"
-    case metric = "metric"
-    case none = "none"
-}
-
 // MARK: - Tag
 struct Tag: Codable {
     let displayName: String?
     let id: Int?
     let name: String?
     let parentTagName: String?
-    let rootTagType: RootTagType?
+    let rootTagType: String?
     let type: String?
 
     enum CodingKeys: String, CodingKey {
@@ -412,40 +352,16 @@ struct Tag: Codable {
     }
 }
 
-enum RootTagType: String, Codable {
-    case appliance = "appliance"
-    case businessTags = "business_tags"
-    case cookingStyle = "cooking_style"
-    case cuisine = "cuisine"
-    case dietary = "dietary"
-    case difficulty = "difficulty"
-    case equipment = "equipment"
-    case featurePage = "feature_page"
-    case healthy = "healthy"
-    case ingredientsToAvoid = "ingredients_to_avoid"
-    case meal = "meal"
-    case occasion = "occasion"
-    case seasonal = "seasonal"
-}
-
 // MARK: - TipsSummary
 struct TipsSummary: Codable {
-    let byLine: ByLine?
+    let byLine: String?
     let content: String?
-    let header: Header?
+    let header: String?
 
     enum CodingKeys: String, CodingKey {
         case byLine = "by_line"
         case content, header
     }
-}
-
-enum ByLine: String, Codable {
-    case poweredByBotatouille = "Powered By Botatouille"
-}
-
-enum Header: String, Codable {
-    case highlights = "Highlights"
 }
 
 // MARK: - Topic
@@ -474,9 +390,4 @@ struct UserRatings: Codable {
         case countPositive = "count_positive"
         case score
     }
-}
-
-enum VideoAdContent: String, Codable {
-    case none = "none"
-    case undetermined = "undetermined"
 }
