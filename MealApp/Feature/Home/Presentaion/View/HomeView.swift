@@ -25,13 +25,14 @@ struct HomeView: View {
                     .padding(.top, 24)
                 
             }
+            .redactedLoading(isLoading: $viewModel.isLoading)
         }
     }
     
     private var trendingRecipies: some View {
         RecipeSectionView(
             title: "Trending Recipes",
-            recipes: viewModel.trendingRecipies
+            recipes: viewModel.trendingRecipies ?? []
         ) {
             
         }
@@ -40,7 +41,7 @@ struct HomeView: View {
     private var comfortFoodClassics: some View {
         RecipeSectionView(
             title: "Comfort Food Classics",
-            recipes: viewModel.classicsRecipies
+            recipes: viewModel.classicsRecipies ?? []
         ) {
             
         }

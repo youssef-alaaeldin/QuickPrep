@@ -21,7 +21,7 @@ struct SmallRecipeCardView: View {
                     .frame(height: 130)
                 
             } placeholder: {
-                ProgressView()
+                
             }
             
             Text(recipe.name ?? "")
