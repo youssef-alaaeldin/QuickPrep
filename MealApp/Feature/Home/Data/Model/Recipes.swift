@@ -8,7 +8,7 @@ import Foundation
 // MARK: - Recipes
 struct Recipes: Codable {
     let count: Int?
-    let results: [Results]?
+    let results: [Results]
 }
 
 // MARK: - Result

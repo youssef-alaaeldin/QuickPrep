@@ -17,9 +17,32 @@ struct HomeView: View {
         VStack {
             TopSearchView()
             
-            ScrollView {
+            ScrollView(.vertical, showsIndicators: false) {
+                trendingRecipies
+                    .padding(.top, 24)
+                
+                comfortFoodClassics
+                    .padding(.top, 24)
                 
             }
+        }
+    }
+    
+    private var trendingRecipies: some View {
+        RecipeSectionView(
+            title: "Trending Recipes",
+            recipes: viewModel.trendingRecipies
+        ) {
+            
+        }
+    }
+    
+    private var comfortFoodClassics: some View {
+        RecipeSectionView(
+            title: "Comfort Food Classics",
+            recipes: viewModel.classicsRecipies
+        ) {
+            
         }
     }
 }

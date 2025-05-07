@@ -9,15 +9,21 @@ import Foundation
 
 struct RecipiesRequest: Endpoint {
     var size: Int
-    var tags: String
+    var tags: String?
+    var q: String?
     
     var parameters: [String : Any]? {
         var parameters: [String : Any] = [:]
         
         parameters["from"] = 0
         parameters["size"] = size
-        parameters["tags"] = tags
-                   
+        if let tags = tags {
+            parameters["tags"] = tags
+        }
+        if let q = q {
+            parameters["q"] = q
+        }
+        
         return parameters
     }
     

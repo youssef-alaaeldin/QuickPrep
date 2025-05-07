@@ -17,6 +17,8 @@ extension Font {
     static let heading3: Font = .custom("Montserrat-SemiBold", size: 20)
 
     static let title: Font = .custom("Montserrat-SemiBold", size: 16)
+    
+    static let title2: Font = .custom("Montserrat-SemiBold", size: 14)
 
     static let text1: Font = .custom("Montserrat-Regular", size: 16)
     

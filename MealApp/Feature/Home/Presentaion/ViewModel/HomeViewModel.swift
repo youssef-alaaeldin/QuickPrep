@@ -13,21 +13,42 @@ import Factory
 class HomeViewModel: ObservableObject {
     @Injected(\.recipiesUseCase) private var recipiesUseCase
     
+    @Published var trendingRecipies: [Results] = []
+    @Published var classicsRecipies: [Results] = []
     
     init() {
-        fetchRecipies()
+        fetchTrendingRecipies()
+        fetchClassicsRecipies()
     }
 }
 
 // MARK: - API Calls
 
 extension HomeViewModel {
-    func fetchRecipies() {
-        let request = RecipiesRequest(size: 2, tags: "under_30_minutes")
-        recipiesUseCase.exectute(recipiesRequest: request) { result in
+    func fetchTrendingRecipies() {
+        let request = RecipiesRequest(size: 10)
+        recipiesUseCase.exectute(recipiesRequest: request) { [weak self] result in
+            guard let self = self else { return }
             switch result {
-                case .success(let recipies):
-                    print(recipies.count)
+                case .success(let recipiesResponse):
+                    DispatchQueue.main.async {
+                        self.trendingRecipies = recipiesResponse.results
+                    }
+                case .failure(let error):
+                    print("Failed: \(error)")
+            }
+        }
+    }
+    
+    func fetchClassicsRecipies() {
+        let request = RecipiesRequest(size: 10, q: "classics")
+        recipiesUseCase.exectute(recipiesRequest: request) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let recipiesResponse):
+                    DispatchQueue.main.async {
+                        self.classicsRecipies = recipiesResponse.results
+                    }
                 case .failure(let error):
                     print("Failed: \(error)")
             }
