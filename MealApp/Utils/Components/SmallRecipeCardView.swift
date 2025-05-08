@@ -31,7 +31,7 @@ struct SmallRecipeCardView: View {
                 .padding(.leading, 8)
             
             Text(recipe.description ?? "")
-                .font(.text3)
+                .font(.text4)
                 .foregroundStyle(.text)
                 .multilineTextAlignment(.leading)
                 .lineLimit(2)
@@ -60,7 +60,7 @@ struct SmallRecipeCardView: View {
         .padding(.bottom, 8)
         .background(Color.white)
         .cornerRadius(16)
-        .shadow(color: Color.text.opacity(0.1), radius: 4, x: 0, y: 4)
+        .shadow(color: Color.text.opacity(0.25), radius: 4, x: 0, y: 4)
         .frame(width: 170, height: 274)
     }
 }

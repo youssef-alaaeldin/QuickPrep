@@ -24,6 +24,10 @@ struct HomeView: View {
                 comfortFoodClassics
                     .padding(.top, 24)
                 
+                allRecipiesList
+                    .padding(.top, 24)
+                    .padding(.bottom, 44)
+                
             }
             .redactedLoading(isLoading: $viewModel.isLoading)
         }
@@ -45,6 +49,15 @@ struct HomeView: View {
         ) {
             
         }
+    }
+    
+    private var allRecipiesList: some View {
+        LazyVStack(spacing: 24) {
+            ForEach(viewModel.trendingRecipies ?? [], id: \.id) { recipe in
+                    LargeRecipeCardView(recipe: recipe)
+            }
+        }
+        .padding(.horizontal, 16)
     }
 }
 

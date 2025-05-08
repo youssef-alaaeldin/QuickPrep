@@ -25,6 +25,9 @@ extension Font {
     static let text2: Font = .custom("Montserrat-Regular", size: 14)
     
     static let text3: Font = .custom("Montserrat-Medium", size: 12)
+    
+    static let text4: Font = .custom("Montserrat-Regular", size: 12)
+
 
     static let error: Font = .system(size: 10, weight: .regular)
     

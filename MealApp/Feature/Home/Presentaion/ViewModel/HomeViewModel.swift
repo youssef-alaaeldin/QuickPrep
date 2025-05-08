@@ -107,6 +107,7 @@ extension HomeViewModel {
                     }
                 case .failure(let error):
                     print("Failed: \(error)")
+                    self.classicsRecipiesLoadingState = .error
             }
         }
     }

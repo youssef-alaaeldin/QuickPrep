@@ -37,7 +37,7 @@ extension Results {
             country: "US",
             createdAt: Int.random(in: 1600000000...1700000000),
             credits: Credit.mockArray(count: Int.random(in: 1...2)),
-            description: "A delicious mock recipe description.",
+            description: "A delicious mock recipe description asdada sd asd asdasd asd asd asd asd asda sdwadqwdeqweq w eqe qwe qwe qwe qdasd qwdqeq wasd asd qwe qasd asd.",
             draftStatus: "published",
             facebookPosts: [],
             id: Int.random(in: 1...10000),
