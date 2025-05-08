@@ -11,7 +11,10 @@ import SDWebImageSwiftUI
 
 struct SmallRecipeCardView: View {
     
+    @State private var isFavorited: Bool = false
+    
     var recipe: Results
+    var favBtnTapped: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -23,6 +26,20 @@ struct SmallRecipeCardView: View {
             } placeholder: {
                 
             }
+            .overlay(alignment: .topTrailing) {
+                Button {
+                    isFavorited.toggle()
+                    favBtnTapped()
+                } label: {
+                    Image(systemName: isFavorited ? "heart.fill" : "heart")
+                        .foregroundStyle(.darkRed)
+                        .padding(8)
+                        .background(.white)
+                        .clipShape(.circle)
+                        .shadow(color: Color.text.opacity(0.25), radius: 2, x: 0, y: 2)
+                }
+                .padding(.top, 8)
+            }
             
             Text(recipe.name ?? "")
                 .font(.title)
@@ -31,7 +48,7 @@ struct SmallRecipeCardView: View {
                 .padding(.leading, 8)
             
             Text(recipe.description ?? "")
-                .font(.text4)
+                .font(.text3)
                 .foregroundStyle(.text)
                 .multilineTextAlignment(.leading)
                 .lineLimit(2)

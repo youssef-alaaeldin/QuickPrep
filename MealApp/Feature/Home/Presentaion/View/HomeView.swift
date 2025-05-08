@@ -54,7 +54,9 @@ struct HomeView: View {
     private var allRecipiesList: some View {
         LazyVStack(spacing: 24) {
             ForEach(viewModel.trendingRecipies ?? [], id: \.id) { recipe in
-                    LargeRecipeCardView(recipe: recipe)
+                LargeRecipeCardView(recipe: recipe) {
+                    // TODO: Fav button
+                }
             }
         }
         .padding(.horizontal, 16)

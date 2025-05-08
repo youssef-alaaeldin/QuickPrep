@@ -9,8 +9,10 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct LargeRecipeCardView: View {
+    @State private var isFavorited: Bool = false
     
     var recipe: Results
+    var favBtnTapped: () -> Void
     
     var body: some View {
         HStack(spacing: 0) {
@@ -22,13 +24,28 @@ struct LargeRecipeCardView: View {
             } placeholder: {
                 
             }
+            .overlay(alignment: .topTrailing) {
+                Button {
+                    isFavorited.toggle()
+                    favBtnTapped()
+                } label: {
+                    Image(systemName: isFavorited ? "heart.fill" : "heart")
+                        .foregroundStyle(.darkRed)
+                        .padding(8)
+                        .background(.white)
+                        .clipShape(.circle)
+                        .shadow(color: Color.text.opacity(0.25), radius: 2, x: 0, y: 2)
+                }
+                .padding(.top, 8)
+            }
+            
             
             VStack(alignment: .leading, spacing: 7) {
                 Text(recipe.name ?? "")
                     .font(.title)
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
-
+                
                 Text(recipe.description ?? "")
                     .font(.text4)
                     .foregroundStyle(.text)
@@ -64,6 +81,9 @@ struct LargeRecipeCardView: View {
 }
 
 #Preview {
-    LargeRecipeCardView(recipe: Results.mock)
+    LargeRecipeCardView(recipe: Results.mock) {
+        
+    }
         .padding(.horizontal, 16)
 }
+

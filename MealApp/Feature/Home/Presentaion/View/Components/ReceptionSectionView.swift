@@ -19,7 +19,9 @@ struct RecipeSectionView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 16) {
                     ForEach(recipes, id: \.id) { recipe in
-                        SmallRecipeCardView(recipe: recipe)
+                        SmallRecipeCardView(recipe: recipe) {
+                            // TODO: Fav btn
+                        }
                     }
                 }
                 .padding(.horizontal, 16)
