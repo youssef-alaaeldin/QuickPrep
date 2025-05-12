@@ -16,10 +16,7 @@ class CategoriesRemoteDataSource: CategoriesRemoteDataSourceProtocol {
         categoriesTask = Task {
             do {
                 let result = try await networkProvider.get(endpoint: categoryRequest, responseType: CategoryResponse.self)
-                guard !Task.isCancelled else {
-                    print("Task cancelled")
-                    return
-                }
+                
                 completion(.success(result))
             } catch {
                 completion(.failure(error))

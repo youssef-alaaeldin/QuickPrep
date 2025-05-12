@@ -8,18 +8,18 @@
 import Foundation
 
 // MARK: - TagsResponse
-struct CategoryResponse: Codable {
-    let count: Int
-    let results: [Categories]
+struct CategoryResponse: Codable, Equatable {
+    let count: Int?
+    let results: [Categories]?
 }
 
 // MARK: - Result
-struct Categories: Codable {
-    let displayName: String
-    let id: Int
-    let name: String
+struct Categories: Codable, Equatable {
+    let displayName: String?
+    let id: Int?
+    let name: String?
     let parentTagName: String?
-    let rootTagType, type: String
+    let rootTagType, type: String?
 
     enum CodingKeys: String, CodingKey {
         case displayName = "display_name"

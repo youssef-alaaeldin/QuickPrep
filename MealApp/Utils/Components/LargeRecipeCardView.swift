@@ -42,7 +42,7 @@ struct LargeRecipeCardView: View {
             
             VStack(alignment: .leading, spacing: 7) {
                 Text(recipe.name ?? "")
-                    .font(.title)
+                    .font(.title1)
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
                 

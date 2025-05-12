@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
+    @Namespace private var categoryAnimation
     @StateObject private var viewModel: HomeViewModel
     
     init() {
@@ -22,6 +23,9 @@ struct HomeView: View {
                     .padding(.top, 24)
                 
                 comfortFoodClassics
+                    .padding(.top, 24)
+                
+                categoriesBar
                     .padding(.top, 24)
                 
                 allRecipiesList
@@ -51,9 +55,38 @@ struct HomeView: View {
         }
     }
     
+    private var categoriesBar: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Endless Culinary Journey")
+                .font(.heading3)
+                .padding(.horizontal, 16)
+            
+            ScrollView(.horizontal) {
+                HStack(spacing: 24) {
+                    ForEach(viewModel.categories ?? [], id: \.id) { category in
+                        
+                        CategoriesView(
+                            title: category.displayName ?? "",
+                            isSelected: category == viewModel.selectedCategory,
+                            namespace: categoryAnimation
+                        )
+                        .onTapGesture {
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                viewModel.selectedCategory = category
+                                viewModel.fetchBasedOnCategory()
+                            }
+                        }
+                    }
+                }
+                .padding(.horizontal, 16)
+            }
+            .scrollIndicators(.hidden)
+        }
+    }
+    
     private var allRecipiesList: some View {
         LazyVStack(spacing: 24) {
-            ForEach(viewModel.trendingRecipies ?? [], id: \.id) { recipe in
+            ForEach(viewModel.categoryRecipies ?? [], id: \.id) { recipe in
                 LargeRecipeCardView(recipe: recipe) {
                     // TODO: Fav button
                 }

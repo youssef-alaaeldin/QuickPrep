@@ -28,7 +28,7 @@ struct RecipiesRequest: Endpoint {
     }
     
     var path: String {
-        "/list"
+        "/recipes/list"
     }
     
     var body: Any?

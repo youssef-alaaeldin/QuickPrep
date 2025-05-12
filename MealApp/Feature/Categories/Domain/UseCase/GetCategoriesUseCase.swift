@@ -17,7 +17,12 @@ class GetCategoriesUseCase: GetCategoriesUseCaseProtocol {
     
     func execute(categoryRequest: CategoryRequest, completion: @escaping (Result<CategoryResponse, any Error>) -> Void) {
         categoriesRepository.getAllRecipies(categoryRequest: categoryRequest) { result in
-            completion(result)
+            switch result {
+                case .success(let categoriesResponse):
+                    completion(.success(categoriesResponse))
+                case .failure(let error):
+                    completion(.failure(error))
+            }
         }
     }
 }

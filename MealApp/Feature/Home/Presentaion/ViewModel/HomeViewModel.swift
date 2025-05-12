@@ -12,12 +12,18 @@ import Factory
 
 class HomeViewModel: ObservableObject {
     @Injected(\.recipiesUseCase) private var recipiesUseCase
+    @Injected(\.categoriesUseCase) private var categoriesUseCase
     
+    @Published var categoriesLoadingState: LoadingState<[Categories]> = .loading
     @Published var trendingRecipiesLoadingState: LoadingState<[Results]> = .loading
     @Published var classicsRecipiesLoadingState: LoadingState<[Results]> = .loading
+    @Published var categoryRecipiesLoadingState: LoadingState<[Results]> = .loading
 
+    @Published var categories: [Categories]? = nil
+    @Published var selectedCategory: Categories? = nil
     @Published var trendingRecipies: [Results]? = nil
     @Published var classicsRecipies: [Results]? = nil
+    @Published var categoryRecipies: [Results]? = nil
     @Published var isLoading: Bool = true
     
     private var cancellables = Set<AnyCancellable>()
@@ -25,6 +31,8 @@ class HomeViewModel: ObservableObject {
     init() {
         fetchTrendingRecipies()
         fetchClassicsRecipies()
+        fetchBasedOnCategory()
+        fetchCategories()
         subscribeToTrendingRecipiesLoadingState()
     }
 }
@@ -71,6 +79,46 @@ extension HomeViewModel {
                 }
             }
             .store(in: &cancellables)
+        
+        $categoryRecipiesLoadingState
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] state in
+                guard let self = self else { return }
+                switch state {
+                case .loading:
+                    self.isLoading = true
+                    self.categoryRecipies = Results.mockArray(count: 10)
+                case .loaded(let data):
+                    self.isLoading = false
+                    self.categoryRecipies = data
+                case .error:
+                    self.isLoading = false
+                    self.categoryRecipies = nil
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
+        
+        $categoriesLoadingState
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] state in
+                guard let self = self else { return }
+                switch state {
+                case .loading:
+                    self.isLoading = true
+                    self.categories = Categories.mockArray(count: 10)
+                case .loaded(let data):
+                    self.isLoading = false
+                    self.categories = data
+                case .error:
+                    self.isLoading = false
+                    self.categories = nil
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
     }
     
 }
@@ -89,8 +137,10 @@ extension HomeViewModel {
                         self.trendingRecipiesLoadingState = .loaded(recipiesResponse.results)
                     }
                 case .failure(let error):
-                    print("Failed: \(error)")
-                    self.trendingRecipiesLoadingState = .error
+                    DispatchQueue.main.async {
+                        print("Failed: \(error)")
+                        self.trendingRecipiesLoadingState = .error
+                    }
             }
         }
     }
@@ -106,9 +156,51 @@ extension HomeViewModel {
                         self.classicsRecipiesLoadingState = .loaded(recipiesResponse.results)
                     }
                 case .failure(let error):
-                    print("Failed: \(error)")
-                    self.classicsRecipiesLoadingState = .error
+                    DispatchQueue.main.async {
+                        print("Failed: \(error)")
+                        self.classicsRecipiesLoadingState = .error
+                    }
             }
         }
+    }
+    
+    func fetchBasedOnCategory() {
+        let request = RecipiesRequest(size: 10, q: selectedCategory?.name ?? "")
+        recipiesUseCase.exectute(recipiesRequest: request) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let recipiesResponse):
+                    DispatchQueue.main.async {
+                        self.categoryRecipies = recipiesResponse.results
+                        self.categoryRecipiesLoadingState = .loaded(recipiesResponse.results)
+                    }
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        print("Failed: \(error)")
+                        self.categoryRecipiesLoadingState = .error
+                    }
+            }
+        }
+    }
+    
+    func fetchCategories() {
+        let request = CategoryRequest()
+        categoriesUseCase.execute(categoryRequest: request) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+                case .success(let response):
+                    DispatchQueue.main.async {
+                        self.categories = response.results
+                        self.categoriesLoadingState = .loaded(response.results)
+                    }
+                case .failure(let error):
+                    print("Error \(error)")
+                    DispatchQueue.main.async {
+                        self.categoriesLoadingState = .error
+                    }
+            }
+        }
+        
     }
 }
