@@ -44,7 +44,7 @@ struct SmallRecipeCardView: View {
             }
             
             Text(recipe.name ?? "")
-                .font(.title)
+                .font(.title1)
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
                 .padding(.leading, 8)
