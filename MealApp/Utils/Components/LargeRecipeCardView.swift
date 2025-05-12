@@ -22,7 +22,9 @@ struct LargeRecipeCardView: View {
                     .frame(width: 143, height: 125)
                 
             } placeholder: {
-                
+                Image(systemName: "photo")
+                    .resizable()
+                    .frame(width: 143, height: 125)
             }
             .overlay(alignment: .topTrailing) {
                 Button {

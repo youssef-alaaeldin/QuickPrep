@@ -21,19 +21,24 @@ struct HomeView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 trendingRecipies
                     .padding(.top, 24)
+                    .redactedLoading(isLoading: $viewModel.isTrendingRecipiesLoading)
                 
                 comfortFoodClassics
                     .padding(.top, 24)
-                
+                    .redactedLoading(isLoading: $viewModel.isClassicRecipiesLoading)
+
                 categoriesBar
                     .padding(.top, 24)
+                    .redactedLoading(isLoading: $viewModel.isCategoriesLoading)
+
                 
                 allRecipiesList
                     .padding(.top, 24)
                     .padding(.bottom, 44)
+                    .redactedLoading(isLoading: $viewModel.isCategoriesRecipiesLoading)
+
                 
             }
-            .redactedLoading(isLoading: $viewModel.isLoading)
         }
     }
     
@@ -73,6 +78,7 @@ struct HomeView: View {
                         .onTapGesture {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                                 viewModel.selectedCategory = category
+                                viewModel.categoryRecipiesLoadingState = .loading
                                 viewModel.fetchBasedOnCategory()
                             }
                         }
@@ -92,6 +98,7 @@ struct HomeView: View {
                 }
             }
         }
+        .transition(.opacity.combined(with: .scale))
         .padding(.horizontal, 16)
     }
 }

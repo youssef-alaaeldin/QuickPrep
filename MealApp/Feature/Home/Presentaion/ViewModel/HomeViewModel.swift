@@ -24,75 +24,43 @@ class HomeViewModel: ObservableObject {
     @Published var trendingRecipies: [Results]? = nil
     @Published var classicsRecipies: [Results]? = nil
     @Published var categoryRecipies: [Results]? = nil
-    @Published var isLoading: Bool = true
+    @Published var isTrendingRecipiesLoading: Bool = true
+    @Published var isClassicRecipiesLoading: Bool = true
+    @Published var isCategoriesLoading: Bool = true
+    @Published var isCategoriesRecipiesLoading: Bool = true
+
     
     private var cancellables = Set<AnyCancellable>()
     
     init() {
+        subscribeToTrendingRecipiesLoadingState()
+        subscribeToClassicsRecipiesLoadingState()
+        subscribeToAllCategoriesLoadingState()
+        subscribeToAllCategoriesRecipiesLoadingState()
+        
         fetchTrendingRecipies()
         fetchClassicsRecipies()
         fetchBasedOnCategory()
         fetchCategories()
-        subscribeToTrendingRecipiesLoadingState()
     }
 }
 
 // MARK: - Listen To Publishers
 extension HomeViewModel {
-    func subscribeToTrendingRecipiesLoadingState() {
-        $trendingRecipiesLoadingState
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] state in
-                guard let self = self else { return }
-                switch state {
-                case .loading:
-                    self.isLoading = true
-                    self.trendingRecipies = Results.mockArray(count: 10)
-                case .loaded(let data):
-                    self.isLoading = false
-                    self.trendingRecipies = data
-                case .error:
-                    self.isLoading = false
-                    self.trendingRecipies = nil
-                default:
-                    break
-                }
-            }
-            .store(in: &cancellables)
-        
-        $classicsRecipiesLoadingState
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] state in
-                guard let self = self else { return }
-                switch state {
-                case .loading:
-                    self.isLoading = true
-                    self.classicsRecipies = Results.mockArray(count: 10)
-                case .loaded(let data):
-                    self.isLoading = false
-                    self.classicsRecipies = data
-                case .error:
-                    self.isLoading = false
-                    self.classicsRecipies = nil
-                default:
-                    break
-                }
-            }
-            .store(in: &cancellables)
-        
+    func subscribeToAllCategoriesRecipiesLoadingState() {
         $categoryRecipiesLoadingState
             .receive(on: DispatchQueue.main)
             .sink { [weak self] state in
                 guard let self = self else { return }
                 switch state {
                 case .loading:
-                    self.isLoading = true
+                    self.isCategoriesRecipiesLoading = true
                     self.categoryRecipies = Results.mockArray(count: 10)
                 case .loaded(let data):
-                    self.isLoading = false
+                    self.isCategoriesRecipiesLoading = false
                     self.categoryRecipies = data
                 case .error:
-                    self.isLoading = false
+                    self.isCategoriesRecipiesLoading = false
                     self.categoryRecipies = nil
                 default:
                     break
@@ -100,25 +68,71 @@ extension HomeViewModel {
             }
             .store(in: &cancellables)
         
+    }
+    func subscribeToAllCategoriesLoadingState() {
         $categoriesLoadingState
             .receive(on: DispatchQueue.main)
             .sink { [weak self] state in
                 guard let self = self else { return }
                 switch state {
                 case .loading:
-                    self.isLoading = true
+                    self.isCategoriesLoading = true
                     self.categories = Categories.mockArray(count: 10)
                 case .loaded(let data):
-                    self.isLoading = false
+                    self.isCategoriesLoading = false
                     self.categories = data
                 case .error:
-                    self.isLoading = false
+                    self.isCategoriesLoading = false
                     self.categories = nil
                 default:
                     break
                 }
             }
             .store(in: &cancellables)
+    }
+    func subscribeToClassicsRecipiesLoadingState() {
+        $classicsRecipiesLoadingState
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] state in
+                guard let self = self else { return }
+                switch state {
+                case .loading:
+                    self.isClassicRecipiesLoading = true
+                    self.classicsRecipies = Results.mockArray(count: 10)
+                case .loaded(let data):
+                    self.isClassicRecipiesLoading = false
+                    self.classicsRecipies = data
+                case .error:
+                    self.isClassicRecipiesLoading = false
+                    self.classicsRecipies = nil
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    func subscribeToTrendingRecipiesLoadingState() {
+        $trendingRecipiesLoadingState
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] state in
+                guard let self = self else { return }
+                switch state {
+                case .loading:
+                    self.isTrendingRecipiesLoading = true
+                    self.trendingRecipies = Results.mockArray(count: 10)
+                case .loaded(let data):
+                    self.isTrendingRecipiesLoading = false
+                    self.trendingRecipies = data
+                case .error:
+                    self.isTrendingRecipiesLoading = false
+                    self.trendingRecipies = nil
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
+       
     }
     
 }
