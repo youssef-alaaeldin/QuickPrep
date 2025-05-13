@@ -19,6 +19,7 @@ struct HomeView: View {
             TopSearchView()
             
             ScrollView(.vertical, showsIndicators: false) {
+                
                 trendingRecipies
                     .padding(.top, 24)
                     .redactedLoading(isLoading: $viewModel.isTrendingRecipiesLoading)
@@ -26,17 +27,13 @@ struct HomeView: View {
                 comfortFoodClassics
                     .padding(.top, 24)
                     .redactedLoading(isLoading: $viewModel.isClassicRecipiesLoading)
-
-                categoriesBar
-                    .padding(.top, 24)
-                    .redactedLoading(isLoading: $viewModel.isCategoriesLoading)
-
+                
                 
                 allRecipiesList
                     .padding(.top, 24)
                     .padding(.bottom, 44)
                     .redactedLoading(isLoading: $viewModel.isCategoriesRecipiesLoading)
-
+                
                 
             }
         }
@@ -92,21 +89,29 @@ struct HomeView: View {
     }
     
     private var allRecipiesList: some View {
-        LazyVStack(spacing: 24) {
-            ForEach(viewModel.categoryRecipies ?? [], id: \.id) { recipe in
-                LargeRecipeCardView(recipe: recipe) {
-                    // TODO: Fav button
-                }
-                .onAppear {
-                    if recipe == viewModel.categoryRecipies?.last {
-                        viewModel.fetchBasedOnCategory(isPaginating: true)
+        LazyVStack(spacing: 24, pinnedViews: [.sectionHeaders]) {
+            Section {
+                ForEach(viewModel.categoryRecipies ?? [], id: \.id) { recipe in
+                    LargeRecipeCardView(recipe: recipe) {
+                        // TODO: Fav button
+                    }
+                    .onAppear {
+                        if recipe == viewModel.categoryRecipies?.last {
+                            viewModel.fetchBasedOnCategory(isPaginating: true)
+                        }
                     }
                 }
-            }
-            
-            if viewModel.isFetchingMoreCategoryRecipies {
-                ProgressView()
-                    .padding()
+                
+                if viewModel.isFetchingMoreCategoryRecipies {
+                    ProgressView()
+                        .padding()
+                }
+            } header: {
+                categoriesBar
+                    .redactedLoading(isLoading: $viewModel.isCategoriesLoading)
+                    .unredacted()
+                    .background(Color(.systemBackground))
+                    .padding(.horizontal, -16)
             }
         }
         .padding(.horizontal, 16)

@@ -58,7 +58,7 @@ extension Results {
             price: Price.mock,
             promotion: "community",
             renditions: Rendition.mockArray(count: Int.random(in: 1...2)),
-            sections: Section.mockArray(count: Int.random(in: 1...2)),
+            sections: MealSection.mockArray(count: Int.random(in: 1...2)),
             seoPath: "/recipes/mock-recipe",
             seoTitle: "Mock SEO Title",
             servingsNounPlural: "servings",
@@ -221,23 +221,23 @@ extension Rendition {
     }
 }
 
-extension Section {
-    static var mock: Section {
-        Section(
-            components: Component.mockArray(count: Int.random(in: 2...4)),
+extension MealSection {
+    static var mock: MealSection {
+        MealSection(
+            components: MealComponent.mockArray(count: Int.random(in: 2...4)),
             name: "Section Name",
             position: Int.random(in: 1...3)
         )
     }
 
-    static func mockArray(count: Int) -> [Section] {
-        (1...count).map { _ in Section.mock }
+    static func mockArray(count: Int) -> [MealSection] {
+        (1...count).map { _ in MealSection.mock }
     }
 }
 
-extension Component {
-    static var mock: Component {
-        Component(
+extension MealComponent {
+    static var mock: MealComponent {
+        MealComponent(
             extraComment: "Optional comment",
             id: Int.random(in: 1...1000),
             ingredient: Ingredient.mock,
@@ -248,8 +248,8 @@ extension Component {
         )
     }
 
-    static func mockArray(count: Int) -> [Component] {
-        (1...count).map { _ in Component.mock }
+    static func mockArray(count: Int) -> [MealComponent] {
+        (1...count).map { _ in MealComponent.mock }
     }
 }
 

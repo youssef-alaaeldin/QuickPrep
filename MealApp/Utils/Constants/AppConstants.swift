@@ -8,7 +8,7 @@
 import Foundation
 
 class AppConstants {
-    static let apiKey = "59c94c8fe9msh456cb3c7191177ap19b88ejsnd45fcdcdfd36"
+    static let apiKey = "43dab0d21bmsh4efc79392f7db2cp137126jsnd453b95cb1f1"
     static let mainURL = "https://tasty.p.rapidapi.com"
     
 }

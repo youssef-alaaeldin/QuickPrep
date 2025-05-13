@@ -25,7 +25,7 @@ extension Endpoint {
         
         headers["Content-Type"] = "application/json"
         headers["x-rapidapi-host"] = "tasty.p.rapidapi.com"
-        headers["x-rapidapi-key"] = "59c94c8fe9msh456cb3c7191177ap19b88ejsnd45fcdcdfd36"
+        headers["x-rapidapi-key"] = AppConstants.apiKey
         return headers
     }
 }

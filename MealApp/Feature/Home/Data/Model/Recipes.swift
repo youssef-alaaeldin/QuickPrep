@@ -42,7 +42,7 @@ struct Results: Codable, Equatable {
     let price: Price?
     let promotion: String?
     let renditions: [Rendition]?
-    let sections: [Section]?
+    let sections: [MealSection]?
     let seoPath: String?
     let seoTitle: String?
     let servingsNounPlural: String?
@@ -274,14 +274,14 @@ struct Rendition: Codable, Equatable {
 }
 
 // MARK: - Section
-struct Section: Codable , Equatable{
-    let components: [Component]?
+struct MealSection: Codable , Equatable{
+    let components: [MealComponent]?
     let name: String?
     let position: Int?
 }
 
 // MARK: - Component
-struct Component: Codable, Equatable {
+struct MealComponent: Codable, Equatable {
     let extraComment: String?
     let id: Int?
     let ingredient: Ingredient?
