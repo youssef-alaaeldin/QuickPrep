@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct RecipeSectionView: View {
+    @EnvironmentObject private var coordinator: NavCoordinator
+    
     let title: String
     let recipes: [Recipie]
+    
     let onViewAllTapped: () -> Void
     
     var body: some View {
@@ -21,6 +24,9 @@ struct RecipeSectionView: View {
                     ForEach(recipes, id: \.id) { recipe in
                         SmallRecipeCardView(recipe: recipe) {
                             // TODO: Fav btn
+                        }
+                        .onTapGesture {
+                            coordinator.push(.recipeDetails(recipe: recipe))
                         }
                     }
                 }

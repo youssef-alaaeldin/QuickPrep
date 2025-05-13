@@ -9,6 +9,7 @@ import Foundation
 enum Screen {
     case onboarding
     case main
+    case recipeDetails(recipe: Recipie)
 }
 
 extension Screen: Identifiable {

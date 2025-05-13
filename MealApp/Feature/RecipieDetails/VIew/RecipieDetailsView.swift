@@ -27,7 +27,7 @@ struct RecipieDetailsView: View {
                     desc: recipie.description ?? "",
                     time: String(recipie.totalTimeMinutes ?? 0),
                     calories: String(recipie.nutrition?.calories ?? 0),
-                    rating: String(format: "\(recipie.userRatings?.score?.starRating ?? 0)", "%.2f")
+                    rating: String(format: "%.2f", recipie.userRatings?.score?.starRating ?? 0)
                 )
                 .padding(20)
                 .background(

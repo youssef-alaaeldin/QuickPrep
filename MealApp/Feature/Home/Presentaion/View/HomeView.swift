@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct HomeView: View {
-    @Namespace private var categoryAnimation
     @StateObject private var viewModel: HomeViewModel
+    @EnvironmentObject private var coordinator: NavCoordinator
     
+    @Namespace private var categoryAnimation
+
     init() {
         self._viewModel = StateObject(wrappedValue: .init())
     }
@@ -54,7 +56,7 @@ struct HomeView: View {
             recipes: viewModel.classicsRecipies ?? []
         ) {
             
-        }
+        } 
     }
     
     private var categoriesBar: some View {
@@ -99,6 +101,9 @@ struct HomeView: View {
                         if recipe == viewModel.categoryRecipies?.last {
                             viewModel.fetchBasedOnCategory(isPaginating: true)
                         }
+                    }
+                    .onTapGesture {
+                        coordinator.push(.recipeDetails(recipe: recipe))
                     }
                 }
                 

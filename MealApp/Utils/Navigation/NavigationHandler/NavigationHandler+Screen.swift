@@ -17,6 +17,8 @@ extension NavCoordinator {
                 OnboardingView()
             case .main:
                 BottomTabsView()
+            case .recipeDetails(let recipe):
+                RecipieDetailsView(recipie: recipe)
         }
     }
 }
