@@ -11,7 +11,7 @@ import SDWebImageSwiftUI
 struct LargeRecipeCardView: View {
     @State private var isFavorited: Bool = false
     
-    var recipe: Results
+    var recipe: Recipie
     var favBtnTapped: () -> Void
     
     var body: some View {
@@ -83,7 +83,7 @@ struct LargeRecipeCardView: View {
 }
 
 #Preview {
-    LargeRecipeCardView(recipe: Results.mock) {
+    LargeRecipeCardView(recipe: Recipie.mock) {
         
     }
         .padding(.horizontal, 16)

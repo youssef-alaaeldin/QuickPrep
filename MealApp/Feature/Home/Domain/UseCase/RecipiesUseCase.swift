@@ -9,13 +9,13 @@ import Foundation
 import Factory
 
 protocol RecipiesUseCaseProtocol {
-    func exectute(recipiesRequest: RecipiesRequest, completion: @escaping (Result<Recipes, Error>) -> Void)
+    func exectute(recipiesRequest: RecipiesRequest, completion: @escaping (Result<RecipesResponse, Error>) -> Void)
 }
 
 class RecipiesUseCase: RecipiesUseCaseProtocol {
     @Injected(\.recipiesRepository) private var recipiesRepository
     
-    func exectute(recipiesRequest: RecipiesRequest, completion: @escaping (Result<Recipes, any Error>) -> Void) {
+    func exectute(recipiesRequest: RecipiesRequest, completion: @escaping (Result<RecipesResponse, any Error>) -> Void) {
         recipiesRepository.getAllRecipies(recipesRequest: recipiesRequest) { result in
             switch result {
                 case .success(let recipies):

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RecipeSectionView: View {
     let title: String
-    let recipes: [Results]
+    let recipes: [Recipie]
     let onViewAllTapped: () -> Void
     
     var body: some View {

@@ -13,7 +13,7 @@ struct SmallRecipeCardView: View {
     
     @State private var isFavorited: Bool = false
     
-    var recipe: Results
+    var recipe: Recipie
     var favBtnTapped: () -> Void
     
     var body: some View {

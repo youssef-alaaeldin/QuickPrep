@@ -9,13 +9,13 @@ import Foundation
 import Factory
 
 protocol RecipesRepositoryProtocol {
-    func getAllRecipies(recipesRequest: RecipiesRequest, completion: @escaping (Result<Recipes, Error>) -> Void)
+    func getAllRecipies(recipesRequest: RecipiesRequest, completion: @escaping (Result<RecipesResponse, Error>) -> Void)
 }
 
 class RecipesRepository: RecipesRepositoryProtocol {
     @Injected(\.recipiesRemoteDS) private var recipiesRemoteDS
     
-    func getAllRecipies(recipesRequest: RecipiesRequest, completion: @escaping (Result<Recipes, any Error>) -> Void) {
+    func getAllRecipies(recipesRequest: RecipiesRequest, completion: @escaping (Result<RecipesResponse, any Error>) -> Void) {
         recipiesRemoteDS.getAllRecipies(recipesRequest: recipesRequest) { result in
             switch result {
                 case .success(let recipies):

@@ -1,0 +1,178 @@
+//
+//  RecipieDetailsView.swift
+//  MealApp
+//
+//  Created by Yousuf Abdelfattah on 13/05/2025.
+//
+
+import SwiftUI
+import SDWebImage
+import SDWebImageSwiftUI
+
+struct RecipieDetailsView: View {
+    var recipie: Recipie
+    
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 0) {
+                
+                RecipieHeaderView(imageURL: recipie.thumbnailURL ?? "") {
+                    // FAV BTN
+                } backBtnAction: {
+                    // BACK BTN
+                }
+                RecipieInfoView(
+                    title: recipie.name ?? "",
+                    price: recipie.price?.total ?? 0,
+                    desc: recipie.description ?? "",
+                    time: String(recipie.totalTimeMinutes ?? 0),
+                    calories: String(recipie.nutrition?.calories ?? 0),
+                    rating: String(format: "\(recipie.userRatings?.score?.starRating ?? 0)", "%.2f")
+                )
+                .padding(20)
+                .background(
+                    RoundedCorner(radius: 20, corners: [.topLeft, .topRight])
+                        .fill(Color(.systemBackground))
+                    
+                )                .ignoresSafeArea(edges: .top)
+                .offset(y: -32)
+            }
+        }
+        .edgesIgnoringSafeArea(.top)
+    }
+}
+
+// MARK: - Recipie Info
+
+struct RecipieInfoView: View {
+    var title: String
+    var price: Int
+    var desc: String
+    var time: String
+    var calories: String
+    var rating: String
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text(title)
+                .font(.heading2)
+            
+            Text("\(price)")
+                .font(.heading3)
+                .foregroundColor(.red)
+
+            Text(desc)
+                .font(.text2)
+                .foregroundColor(.text)
+            
+            HStack(spacing: 24) {
+                InfoPillView(icon: "clock.fill", title: time)
+                Rectangle()
+                    .frame(width: 2)
+                    .foregroundStyle(.divider)
+                InfoPillView(icon: "flame.fill", title: calories)
+
+                Rectangle()
+                    .frame(width: 2)
+                    .foregroundStyle(.divider)
+                InfoPillView(icon: "star.fill", title: rating)
+
+            }
+            .padding(.horizontal, 28)
+            .padding(.vertical, 12)
+            .background(.infoBg)
+            .cornerRadius(60)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding(.top, 16)
+        }
+    }
+}
+
+// MARK: - Header View
+
+struct RecipieHeaderView: View {
+    var imageURL: String
+    
+    var favBtnAction: () -> Void
+    var backBtnAction: () -> Void
+    
+    var body: some View {
+        
+        ZStack(alignment: .top) {
+            Color.red
+                .ignoresSafeArea()
+            
+            WebImage(url: URL(string: imageURL)) { image in
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .shadow(radius: 8)
+                
+            } placeholder: {
+                Image(systemName: "photo")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .shadow(radius: 8)
+            }
+            
+            
+            HStack {
+                Button {
+                   backBtnAction()
+                } label: {
+                    Circle()
+                        .fill(Color.white)
+                        .frame(width: 40, height: 40)
+                        .overlay(
+                            Image(systemName: "chevron.left")
+                                .foregroundColor(.black)
+                        )
+                }
+                
+                Spacer()
+                
+                Button {
+                    favBtnAction()
+                } label: {
+                    Circle()
+                        .fill(Color.white)
+                        .frame(width: 40, height: 40)
+                        .overlay(
+                            Image(systemName: "heart")
+                                .foregroundColor(.red)
+                        )
+                }
+                
+            }
+            .padding(.horizontal)
+            .padding(.top, 60)
+            
+        }
+
+    }
+}
+
+struct InfoPillView: View {
+    var icon: String
+    var title: String
+    
+    var body: some View {
+        VStack(alignment: .center, spacing: 4) {
+            Image(systemName: icon)
+                .resizable()
+                .frame(width: 24, height: 24)
+                .foregroundStyle(.darkRed)
+            
+            Text(title)
+                .font(.title2)
+                .foregroundStyle(.blackishGrey)
+        }
+        
+        
+    }
+}
+
+#Preview {
+    RecipieDetailsView(
+        recipie: Recipie.mock)
+}

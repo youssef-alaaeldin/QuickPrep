@@ -6,13 +6,13 @@
 import Foundation
 
 // MARK: - Recipes
-struct Recipes: Codable {
+struct RecipesResponse: Codable {
     let count: Int?
-    let results: [Results]
+    let results: [Recipie]
 }
 
 // MARK: - Result
-struct Results: Codable, Equatable {
+struct Recipie: Codable, Equatable {
     
     let approvedAt: Int?
     let aspectRatio: String?

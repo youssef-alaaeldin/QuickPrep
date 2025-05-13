@@ -15,15 +15,15 @@ class HomeViewModel: ObservableObject {
     @Injected(\.categoriesUseCase) private var categoriesUseCase
     
     @Published var categoriesLoadingState: LoadingState<[Categories]> = .loading
-    @Published var trendingRecipiesLoadingState: LoadingState<[Results]> = .loading
-    @Published var classicsRecipiesLoadingState: LoadingState<[Results]> = .loading
-    @Published var categoryRecipiesLoadingState: LoadingState<[Results]> = .loading
+    @Published var trendingRecipiesLoadingState: LoadingState<[Recipie]> = .loading
+    @Published var classicsRecipiesLoadingState: LoadingState<[Recipie]> = .loading
+    @Published var categoryRecipiesLoadingState: LoadingState<[Recipie]> = .loading
     
     @Published var categories: [Categories]? = nil
     @Published var selectedCategory: Categories? = nil
-    @Published var trendingRecipies: [Results]? = nil
-    @Published var classicsRecipies: [Results]? = nil
-    @Published var categoryRecipies: [Results]? = nil
+    @Published var trendingRecipies: [Recipie]? = nil
+    @Published var classicsRecipies: [Recipie]? = nil
+    @Published var categoryRecipies: [Recipie]? = nil
     @Published var isTrendingRecipiesLoading: Bool = true
     @Published var isClassicRecipiesLoading: Bool = true
     @Published var isCategoriesLoading: Bool = true
@@ -57,7 +57,7 @@ extension HomeViewModel {
                 switch state {
                     case .loading:
                         self.isCategoriesRecipiesLoading = true
-                        self.categoryRecipies = Results.mockArray(count: 10)
+                        self.categoryRecipies = Recipie.mockArray(count: 10)
                     case .loaded(let data):
                         self.isCategoriesRecipiesLoading = false
                         self.categoryRecipies = data
@@ -100,7 +100,7 @@ extension HomeViewModel {
                 switch state {
                     case .loading:
                         self.isClassicRecipiesLoading = true
-                        self.classicsRecipies = Results.mockArray(count: 10)
+                        self.classicsRecipies = Recipie.mockArray(count: 10)
                     case .loaded(let data):
                         self.isClassicRecipiesLoading = false
                         self.classicsRecipies = data
@@ -122,7 +122,7 @@ extension HomeViewModel {
                 switch state {
                     case .loading:
                         self.isTrendingRecipiesLoading = true
-                        self.trendingRecipies = Results.mockArray(count: 10)
+                        self.trendingRecipies = Recipie.mockArray(count: 10)
                     case .loaded(let data):
                         self.isTrendingRecipiesLoading = false
                         self.trendingRecipies = data

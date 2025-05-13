@@ -9,22 +9,22 @@ import Foundation
 
 // MARK: - Mock Data Extensions
 
-extension Recipes {
-    static var mock: Recipes {
-        Recipes(
+extension RecipesResponse {
+    static var mock: RecipesResponse {
+        RecipesResponse(
             count: Int.random(in: 1...100),
-            results: Results.mockArray(count: Int.random(in: 2...5))
+            results: Recipie.mockArray(count: Int.random(in: 2...5))
         )
     }
 
-    static func mockArray(count: Int) -> [Recipes] {
-        (1...count).map { _ in Recipes.mock }
+    static func mockArray(count: Int) -> [RecipesResponse] {
+        (1...count).map { _ in RecipesResponse.mock }
     }
 }
 
-extension Results {
-    static var mock: Results {
-        Results(
+extension Recipie {
+    static var mock: Recipie {
+        Recipie(
             approvedAt: Int.random(in: 1600000000...1700000000),
             aspectRatio: "16:9",
             beautyURL: "https://example.com/beauty.mp4",
@@ -83,8 +83,8 @@ extension Results {
         )
     }
 
-    static func mockArray(count: Int) -> [Results] {
-        (1...count).map { _ in Results.mock }
+    static func mockArray(count: Int) -> [Recipie] {
+        (1...count).map { _ in Recipie.mock }
     }
 }
 
