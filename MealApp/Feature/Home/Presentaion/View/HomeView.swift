@@ -79,6 +79,7 @@ struct HomeView: View {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                                 viewModel.selectedCategory = category
                                 viewModel.categoryRecipiesLoadingState = .loading
+                                viewModel.categoryRecipiesOffset = 0
                                 viewModel.fetchBasedOnCategory()
                             }
                         }
@@ -96,9 +97,18 @@ struct HomeView: View {
                 LargeRecipeCardView(recipe: recipe) {
                     // TODO: Fav button
                 }
+                .onAppear {
+                    if recipe == viewModel.categoryRecipies?.last {
+                        viewModel.fetchBasedOnCategory(isPaginating: true)
+                    }
+                }
+            }
+            
+            if viewModel.isFetchingMoreCategoryRecipies {
+                ProgressView()
+                    .padding()
             }
         }
-        .transition(.opacity.combined(with: .scale))
         .padding(.horizontal, 16)
     }
 }

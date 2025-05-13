@@ -18,7 +18,7 @@ class HomeViewModel: ObservableObject {
     @Published var trendingRecipiesLoadingState: LoadingState<[Results]> = .loading
     @Published var classicsRecipiesLoadingState: LoadingState<[Results]> = .loading
     @Published var categoryRecipiesLoadingState: LoadingState<[Results]> = .loading
-
+    
     @Published var categories: [Categories]? = nil
     @Published var selectedCategory: Categories? = nil
     @Published var trendingRecipies: [Results]? = nil
@@ -28,7 +28,9 @@ class HomeViewModel: ObservableObject {
     @Published var isClassicRecipiesLoading: Bool = true
     @Published var isCategoriesLoading: Bool = true
     @Published var isCategoriesRecipiesLoading: Bool = true
-
+    
+    @Published var categoryRecipiesOffset: Int = 0
+    @Published var isFetchingMoreCategoryRecipies: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -53,17 +55,17 @@ extension HomeViewModel {
             .sink { [weak self] state in
                 guard let self = self else { return }
                 switch state {
-                case .loading:
-                    self.isCategoriesRecipiesLoading = true
-                    self.categoryRecipies = Results.mockArray(count: 10)
-                case .loaded(let data):
-                    self.isCategoriesRecipiesLoading = false
-                    self.categoryRecipies = data
-                case .error:
-                    self.isCategoriesRecipiesLoading = false
-                    self.categoryRecipies = nil
-                default:
-                    break
+                    case .loading:
+                        self.isCategoriesRecipiesLoading = true
+                        self.categoryRecipies = Results.mockArray(count: 10)
+                    case .loaded(let data):
+                        self.isCategoriesRecipiesLoading = false
+                        self.categoryRecipies = data
+                    case .error:
+                        self.isCategoriesRecipiesLoading = false
+                        self.categoryRecipies = nil
+                    default:
+                        break
                 }
             }
             .store(in: &cancellables)
@@ -75,17 +77,17 @@ extension HomeViewModel {
             .sink { [weak self] state in
                 guard let self = self else { return }
                 switch state {
-                case .loading:
-                    self.isCategoriesLoading = true
-                    self.categories = Categories.mockArray(count: 10)
-                case .loaded(let data):
-                    self.isCategoriesLoading = false
-                    self.categories = data
-                case .error:
-                    self.isCategoriesLoading = false
-                    self.categories = nil
-                default:
-                    break
+                    case .loading:
+                        self.isCategoriesLoading = true
+                        self.categories = Categories.mockArray(count: 10)
+                    case .loaded(let data):
+                        self.isCategoriesLoading = false
+                        self.categories = data
+                    case .error:
+                        self.isCategoriesLoading = false
+                        self.categories = nil
+                    default:
+                        break
                 }
             }
             .store(in: &cancellables)
@@ -96,17 +98,17 @@ extension HomeViewModel {
             .sink { [weak self] state in
                 guard let self = self else { return }
                 switch state {
-                case .loading:
-                    self.isClassicRecipiesLoading = true
-                    self.classicsRecipies = Results.mockArray(count: 10)
-                case .loaded(let data):
-                    self.isClassicRecipiesLoading = false
-                    self.classicsRecipies = data
-                case .error:
-                    self.isClassicRecipiesLoading = false
-                    self.classicsRecipies = nil
-                default:
-                    break
+                    case .loading:
+                        self.isClassicRecipiesLoading = true
+                        self.classicsRecipies = Results.mockArray(count: 10)
+                    case .loaded(let data):
+                        self.isClassicRecipiesLoading = false
+                        self.classicsRecipies = data
+                    case .error:
+                        self.isClassicRecipiesLoading = false
+                        self.classicsRecipies = nil
+                    default:
+                        break
                 }
             }
             .store(in: &cancellables)
@@ -118,21 +120,21 @@ extension HomeViewModel {
             .sink { [weak self] state in
                 guard let self = self else { return }
                 switch state {
-                case .loading:
-                    self.isTrendingRecipiesLoading = true
-                    self.trendingRecipies = Results.mockArray(count: 10)
-                case .loaded(let data):
-                    self.isTrendingRecipiesLoading = false
-                    self.trendingRecipies = data
-                case .error:
-                    self.isTrendingRecipiesLoading = false
-                    self.trendingRecipies = nil
-                default:
-                    break
+                    case .loading:
+                        self.isTrendingRecipiesLoading = true
+                        self.trendingRecipies = Results.mockArray(count: 10)
+                    case .loaded(let data):
+                        self.isTrendingRecipiesLoading = false
+                        self.trendingRecipies = data
+                    case .error:
+                        self.isTrendingRecipiesLoading = false
+                        self.trendingRecipies = nil
+                    default:
+                        break
                 }
             }
             .store(in: &cancellables)
-       
+        
     }
     
 }
@@ -178,21 +180,35 @@ extension HomeViewModel {
         }
     }
     
-    func fetchBasedOnCategory() {
-        let request = RecipiesRequest(size: 10, q: selectedCategory?.name ?? "")
+    func fetchBasedOnCategory(isPaginating: Bool = false) {
+        guard !isFetchingMoreCategoryRecipies else { return } 
+        
+        isFetchingMoreCategoryRecipies = true
+        let request = RecipiesRequest(
+            from: isPaginating ? categoryRecipiesOffset : 0,
+            size: 10,
+            tags: selectedCategory?.name ?? "",
+        )
+        
         recipiesUseCase.exectute(recipiesRequest: request) { [weak self] result in
             guard let self = self else { return }
-            switch result {
-                case .success(let recipiesResponse):
-                    DispatchQueue.main.async {
-                        self.categoryRecipies = recipiesResponse.results
-                        self.categoryRecipiesLoadingState = .loaded(recipiesResponse.results)
-                    }
-                case .failure(let error):
-                    DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                switch result {
+                    case .success(let recipiesResponse):
+                        if isPaginating {
+                            self.categoryRecipies?.append(contentsOf: recipiesResponse.results)
+                        } else {
+                            self.categoryRecipies = recipiesResponse.results
+                        }
+                        self.categoryRecipiesLoadingState = .loaded(self.categoryRecipies ?? [])
+                        self.categoryRecipiesOffset += recipiesResponse.results.count
+                    case .failure(let error):
                         print("Failed: \(error)")
-                        self.categoryRecipiesLoadingState = .error
-                    }
+                        if !isPaginating {
+                            self.categoryRecipiesLoadingState = .error
+                        }
+                }
+                self.isFetchingMoreCategoryRecipies = false
             }
         }
     }

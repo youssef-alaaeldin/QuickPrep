@@ -12,7 +12,8 @@ struct Recipes: Codable {
 }
 
 // MARK: - Result
-struct Results: Codable {
+struct Results: Codable, Equatable {
+    
     let approvedAt: Int?
     let aspectRatio: String?
     let beautyURL, brand, brandID: String?
@@ -117,7 +118,7 @@ struct Results: Codable {
 }
 
 // MARK: - Compilation
-struct Compilation: Codable {
+struct Compilation: Codable, Equatable {
     let approvedAt: Int?
     let aspectRatio: String?
     let beautyURL: String?
@@ -163,13 +164,13 @@ struct Compilation: Codable {
 }
 
 // MARK: - Show
-struct Show: Codable {
+struct Show: Codable, Equatable {
     let id: Int?
     let name: String?
 }
 
 // MARK: - Credit
-struct Credit: Codable {
+struct Credit: Codable, Equatable {
     let isVerified: Bool?
     let name: String?
     let pictureURL: String?
@@ -186,7 +187,7 @@ struct Credit: Codable {
 }
 
 // MARK: - Instruction
-struct Instruction: Codable {
+struct Instruction: Codable, Equatable {
     let appliance: String?
     let displayText: String?
     let endTime, id, position, startTime: Int?
@@ -204,7 +205,7 @@ struct Instruction: Codable {
 }
 
 // MARK: - Hack
-struct Hack: Codable {
+struct Hack: Codable, Equatable {
     let endIndex, id: Int?
     let match: String?
     let startIndex: Int?
@@ -217,7 +218,7 @@ struct Hack: Codable {
 }
 
 // MARK: - Nutrition
-struct Nutrition: Codable {
+struct Nutrition: Codable, Equatable {
     let calories, carbohydrates, fat, fiber: Int?
     let protein, sugar: Int?
     let updatedAt: String?
@@ -229,7 +230,7 @@ struct Nutrition: Codable {
 }
 
 // MARK: - Price
-struct Price: Codable {
+struct Price: Codable, Equatable {
     let consumptionPortion, consumptionTotal, portion, total: Int?
     let updatedAt: String?
 
@@ -242,7 +243,7 @@ struct Price: Codable {
 }
 
 // MARK: - Rendition
-struct Rendition: Codable {
+struct Rendition: Codable, Equatable {
     let aspect: String?
     let bitRate: Int?
     let container: String?
@@ -273,14 +274,14 @@ struct Rendition: Codable {
 }
 
 // MARK: - Section
-struct Section: Codable {
+struct Section: Codable , Equatable{
     let components: [Component]?
     let name: String?
     let position: Int?
 }
 
 // MARK: - Component
-struct Component: Codable {
+struct Component: Codable, Equatable {
     let extraComment: String?
     let id: Int?
     let ingredient: Ingredient?
@@ -298,7 +299,7 @@ struct Component: Codable {
 }
 
 // MARK: - Ingredient
-struct Ingredient: Codable {
+struct Ingredient: Codable, Equatable {
     let createdAt: Int?
     let displayPlural, displaySingular: String?
     let id: Int?
@@ -315,14 +316,14 @@ struct Ingredient: Codable {
 }
 
 // MARK: - Measurement
-struct Measurement: Codable {
+struct Measurement: Codable, Equatable {
     let id: Int?
     let quantity: String?
     let unit: Unit?
 }
 
 // MARK: - Unit
-struct Unit: Codable {
+struct Unit: Codable, Equatable {
     let abbreviation, displayPlural, displaySingular, name: String?
     let system: String?
 
@@ -335,7 +336,7 @@ struct Unit: Codable {
 }
 
 // MARK: - Tag
-struct Tag: Codable {
+struct Tag: Codable, Equatable {
     let displayName: String?
     let id: Int?
     let name: String?
@@ -353,7 +354,7 @@ struct Tag: Codable {
 }
 
 // MARK: - TipsSummary
-struct TipsSummary: Codable {
+struct TipsSummary: Codable, Equatable {
     let byLine: String?
     let content: String?
     let header: String?
@@ -365,12 +366,12 @@ struct TipsSummary: Codable {
 }
 
 // MARK: - Topic
-struct Topic: Codable {
+struct Topic: Codable , Equatable{
     let name, slug: String?
 }
 
 // MARK: - TotalTimeTier
-struct TotalTimeTier: Codable {
+struct TotalTimeTier: Codable, Equatable {
     let displayTier: String?
     let tier: String?
 
@@ -381,7 +382,7 @@ struct TotalTimeTier: Codable {
 }
 
 // MARK: - UserRatings
-struct UserRatings: Codable {
+struct UserRatings: Codable, Equatable {
     let countNegative, countPositive: Int?
     let score: Double?
 
