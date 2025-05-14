@@ -285,7 +285,7 @@ struct MealComponent: Codable, Equatable {
     let extraComment: String?
     let id: Int?
     let ingredient: Ingredient?
-    let measurements: [Measurement]?
+    let measurements: [RecipeMeasurement]?
     let position: Int?
     let rawText: String?
     let hacks: [Hack]?
@@ -316,7 +316,7 @@ struct Ingredient: Codable, Equatable {
 }
 
 // MARK: - Measurement
-struct Measurement: Codable, Equatable {
+struct RecipeMeasurement: Codable, Equatable {
     let id: Int?
     let quantity: String?
     let unit: Unit?

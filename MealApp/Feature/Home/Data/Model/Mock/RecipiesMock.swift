@@ -241,7 +241,7 @@ extension MealComponent {
             extraComment: "Optional comment",
             id: Int.random(in: 1...1000),
             ingredient: Ingredient.mock,
-            measurements: Measurement.mockArray(count: 1),
+            measurements: RecipeMeasurement.mockArray(count: 1),
             position: Int.random(in: 1...5),
             rawText: "2 cups flour",
             hacks: Hack.mockArray(count: Int.random(in: 0...1))
@@ -266,17 +266,17 @@ extension Ingredient {
     }
 }
 
-extension Measurement {
-    static var mock: Measurement {
-        Measurement(
+extension RecipeMeasurement {
+    static var mock: RecipeMeasurement {
+        RecipeMeasurement(
             id: Int.random(in: 1...1000),
             quantity: "\(Int.random(in: 1...5))",
             unit: Unit.mock
         )
     }
 
-    static func mockArray(count: Int) -> [Measurement] {
-        (1...count).map { _ in Measurement.mock }
+    static func mockArray(count: Int) -> [RecipeMeasurement] {
+        (1...count).map { _ in RecipeMeasurement.mock }
     }
 }
 
