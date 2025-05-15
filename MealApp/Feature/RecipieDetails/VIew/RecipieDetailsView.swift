@@ -8,37 +8,27 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
-enum RecipeOptions: String, CaseIterable {
-    case Ingredients
-    case Instructions
-    case Nutrition
-}
-
 struct RecipieDetailsView: View {
     @EnvironmentObject private var coordinator: NavCoordinator
     @StateObject private var viewModel: RecipieDetailsViewModel
-    
+
     var recipie: Recipie
-    
+
     init(recipie: Recipie) {
         self.recipie = recipie
         self._viewModel = StateObject(wrappedValue: .init(recipe: recipie))
     }
-    
-    private var flattenedComponents: [MealComponent] {
-        (recipie.sections ?? []).flatMap { $0.components ?? [] }
-    }
-    
+
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                
+
                 RecipieHeaderView(imageURL: recipie.thumbnailURL ?? "") {
                     // Favorite button action
                 } backBtnAction: {
                     coordinator.pop()
                 }
-                
+
                 RecipieInfoView(
                     title: recipie.name ?? "",
                     price: recipie.price?.total ?? 0,
@@ -54,8 +44,8 @@ struct RecipieDetailsView: View {
                 )
                 .ignoresSafeArea(edges: .top)
                 .offset(y: -32)
-                
-                recipeIngredientView
+
+                recipeOptionsView
                     .padding(.horizontal, 16)
             }
         }
@@ -63,27 +53,64 @@ struct RecipieDetailsView: View {
         .navigationBarBackButtonHidden()
     }
     
-    private var recipeIngredientView: some View {
+    private var recipeOptionsView: some View {
         LazyVStack(alignment: .leading, spacing: 16, pinnedViews: .sectionHeaders) {
             Section {
-                ForEach(viewModel.formattedIngredients) { ingredient in
-                    HStack {
-                        Text(ingredient.name)
-                            .foregroundStyle(.blackishGrey)
-                        Spacer()
-                        Text(ingredient.quantity)
-                            .foregroundStyle(.text)
+                Group {
+                    switch viewModel.selectedOption {
+                        case .Ingredients:
+                            ingredientsList
+                        case .Instructions:
+                            instructionsList
+                        case .Nutrition:
+                            nutritionList
+                                .padding(.bottom, 16)
                     }
-                    .font(.text2)
-                    .padding(.vertical, 4)
                 }
+                .transition(.opacity.combined(with: .slide))
+                .animation(.easeInOut, value: viewModel.selectedOption)
             } header: {
-                RecipeOptionsBarView()
+                RecipeOptionsBarView(selectedOption: $viewModel.selectedOption)
+            }
+        }
+    }
+
+    private var ingredientsList: some View {
+        LazyVStack(alignment: .leading, spacing: 12) {
+            ForEach(viewModel.formattedIngredients) { ingredient in
+                HStack {
+                    Text(ingredient.name)
+                        .foregroundStyle(.blackishGrey)
+                    Spacer()
+                    Text(ingredient.quantity)
+                        .foregroundStyle(.text)
+                }
+                .font(.text2)
+                .padding(.vertical, 4)
+            }
+        }
+    }
+
+    private var instructionsList: some View {
+        LazyVStack(alignment: .leading, spacing: 12) {
+            ForEach(viewModel.instructions.indices, id: \.self) { index in
+                Text("\(index + 1). \(viewModel.instructions[index])")
+                    .font(.text2)
+                    .foregroundStyle(.blackishGrey)
+            }
+        }
+    }
+
+    private var nutritionList: some View {
+        LazyVStack(alignment: .leading, spacing: 12) {
+            ForEach(viewModel.nutritionText, id: \.self) { item in
+                Text(item)
+                    .font(.text2)
+                    .foregroundStyle(.blackishGrey)
             }
         }
     }
 }
-
 
 // MARK: - Recipie Info
 
@@ -94,20 +121,20 @@ struct RecipieInfoView: View {
     var time: String
     var calories: String
     var rating: String
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text(title)
                 .font(.heading2)
-            
-            Text("£\(price)")
+
+            Text("\u{00A3}\(price)")
                 .font(.heading3)
                 .foregroundColor(.darkRed)
-            
+
             Text(desc)
                 .font(.text2)
                 .foregroundColor(.text)
-            
+
             HStack(spacing: 24) {
                 InfoPillView(icon: "clock.fill", title: time)
                 Rectangle().frame(width: 2).foregroundStyle(.divider)
@@ -131,11 +158,11 @@ struct RecipieHeaderView: View {
     var imageURL: String
     var favBtnAction: () -> Void
     var backBtnAction: () -> Void
-    
+
     var body: some View {
         ZStack(alignment: .top) {
             Color.red.ignoresSafeArea()
-            
+
             WebImage(url: URL(string: imageURL)) { image in
                 image
                     .resizable()
@@ -147,7 +174,7 @@ struct RecipieHeaderView: View {
                     .aspectRatio(contentMode: .fit)
                     .shadow(radius: 8)
             }
-            
+
             HStack {
                 Button(action: backBtnAction) {
                     Circle()
@@ -158,9 +185,9 @@ struct RecipieHeaderView: View {
                                 .foregroundColor(.black)
                         )
                 }
-                
+
                 Spacer()
-                
+
                 Button(action: favBtnAction) {
                     Circle()
                         .fill(Color.white)
@@ -182,14 +209,14 @@ struct RecipieHeaderView: View {
 struct InfoPillView: View {
     var icon: String
     var title: String
-    
+
     var body: some View {
         VStack(spacing: 4) {
             Image(systemName: icon)
                 .resizable()
                 .frame(width: 24, height: 24)
                 .foregroundStyle(.darkRed)
-            
+
             Text(title)
                 .font(.title2)
                 .foregroundStyle(.blackishGrey)
@@ -200,29 +227,25 @@ struct InfoPillView: View {
 // MARK: - Recipe Options Bar
 
 struct RecipeOptionsBarView: View {
-    @State var selectedRecipeOption: RecipeOptions = .Ingredients
+    @Binding var selectedOption: RecipeOptions
     @Namespace private var recipeOptionsAnimation
-    
+
     var body: some View {
         ScrollView(.horizontal) {
             HStack(spacing: 24) {
-                ForEach(RecipeOptions.allCases, id: \.rawValue) { recipe in
+                ForEach(RecipeOptions.allCases, id:\.rawValue) { recipe in
                     CategoriesView(
                         title: recipe.rawValue,
-                        isSelected: recipe == selectedRecipeOption,
+                        isSelected: recipe == selectedOption,
                         namespace: recipeOptionsAnimation
                     )
                     .onTapGesture {
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                            selectedRecipeOption = recipe
+                            selectedOption = recipe
                         }
                     }
                 }
             }
         }
     }
-}
-
-#Preview {
-    RecipieDetailsView(recipie: Recipie.mock)
 }
