@@ -11,24 +11,24 @@ import SDWebImageSwiftUI
 struct RecipieDetailsView: View {
     @EnvironmentObject private var coordinator: NavCoordinator
     @StateObject private var viewModel: RecipieDetailsViewModel
-
+    
     var recipie: Recipie
-
+    
     init(recipie: Recipie) {
         self.recipie = recipie
         self._viewModel = StateObject(wrappedValue: .init(recipe: recipie))
     }
-
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-
+                
                 RecipieHeaderView(imageURL: recipie.thumbnailURL ?? "") {
                     // Favorite button action
                 } backBtnAction: {
                     coordinator.pop()
                 }
-
+                
                 RecipieInfoView(
                     title: recipie.name ?? "",
                     price: recipie.price?.total ?? 0,
@@ -44,7 +44,7 @@ struct RecipieDetailsView: View {
                 )
                 .ignoresSafeArea(edges: .top)
                 .offset(y: -32)
-
+                
                 recipeOptionsView
                     .padding(.horizontal, 16)
             }
@@ -67,14 +67,13 @@ struct RecipieDetailsView: View {
                                 .padding(.bottom, 16)
                     }
                 }
-                .transition(.opacity.combined(with: .slide))
-                .animation(.easeInOut, value: viewModel.selectedOption)
+                .transition(.asymmetric(insertion:.fade, removal: .fade))
             } header: {
                 RecipeOptionsBarView(selectedOption: $viewModel.selectedOption)
             }
         }
     }
-
+    
     private var ingredientsList: some View {
         LazyVStack(alignment: .leading, spacing: 12) {
             ForEach(viewModel.formattedIngredients) { ingredient in
@@ -90,7 +89,7 @@ struct RecipieDetailsView: View {
             }
         }
     }
-
+    
     private var instructionsList: some View {
         LazyVStack(alignment: .leading, spacing: 12) {
             ForEach(viewModel.instructions.indices, id: \.self) { index in
@@ -100,7 +99,7 @@ struct RecipieDetailsView: View {
             }
         }
     }
-
+    
     private var nutritionList: some View {
         LazyVStack(alignment: .leading, spacing: 12) {
             ForEach(viewModel.nutritionText, id: \.self) { item in
@@ -121,20 +120,20 @@ struct RecipieInfoView: View {
     var time: String
     var calories: String
     var rating: String
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text(title)
                 .font(.heading2)
-
+            
             Text("\u{00A3}\(price)")
                 .font(.heading3)
                 .foregroundColor(.darkRed)
-
+            
             Text(desc)
                 .font(.text2)
                 .foregroundColor(.text)
-
+            
             HStack(spacing: 24) {
                 InfoPillView(icon: "clock.fill", title: time)
                 Rectangle().frame(width: 2).foregroundStyle(.divider)
@@ -158,11 +157,11 @@ struct RecipieHeaderView: View {
     var imageURL: String
     var favBtnAction: () -> Void
     var backBtnAction: () -> Void
-
+    
     var body: some View {
         ZStack(alignment: .top) {
             Color.red.ignoresSafeArea()
-
+            
             WebImage(url: URL(string: imageURL)) { image in
                 image
                     .resizable()
@@ -174,7 +173,7 @@ struct RecipieHeaderView: View {
                     .aspectRatio(contentMode: .fit)
                     .shadow(radius: 8)
             }
-
+            
             HStack {
                 Button(action: backBtnAction) {
                     Circle()
@@ -185,9 +184,9 @@ struct RecipieHeaderView: View {
                                 .foregroundColor(.black)
                         )
                 }
-
+                
                 Spacer()
-
+                
                 Button(action: favBtnAction) {
                     Circle()
                         .fill(Color.white)
@@ -209,14 +208,14 @@ struct RecipieHeaderView: View {
 struct InfoPillView: View {
     var icon: String
     var title: String
-
+    
     var body: some View {
         VStack(spacing: 4) {
             Image(systemName: icon)
                 .resizable()
                 .frame(width: 24, height: 24)
                 .foregroundStyle(.darkRed)
-
+            
             Text(title)
                 .font(.title2)
                 .foregroundStyle(.blackishGrey)
@@ -229,7 +228,7 @@ struct InfoPillView: View {
 struct RecipeOptionsBarView: View {
     @Binding var selectedOption: RecipeOptions
     @Namespace private var recipeOptionsAnimation
-
+    
     var body: some View {
         ScrollView(.horizontal) {
             HStack(spacing: 24) {
@@ -240,7 +239,7 @@ struct RecipeOptionsBarView: View {
                         namespace: recipeOptionsAnimation
                     )
                     .onTapGesture {
-                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                        withAnimation(.easeInOut(duration: 0.3)) {
                             selectedOption = recipe
                         }
                     }
@@ -248,4 +247,8 @@ struct RecipeOptionsBarView: View {
             }
         }
     }
+}
+
+#Preview {
+    RecipieDetailsView(recipie: Recipie.mock)
 }
