@@ -22,7 +22,7 @@ extension NavCoordinator {
             case .trendingRecipes:
                 TrendingRecipesView()
             case .classicRecipes:
-                Text("Classic Recipes")
+                ClassicsRecipesView()
         }
     }
 }

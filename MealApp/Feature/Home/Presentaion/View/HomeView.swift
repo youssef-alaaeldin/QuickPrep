@@ -30,13 +30,10 @@ struct HomeView: View {
                     .padding(.top, 24)
                     .redactedLoading(isLoading: $viewModel.isClassicRecipiesLoading)
                 
-                
                 allRecipiesList
                     .padding(.top, 24)
                     .padding(.bottom, 44)
                     .redactedLoading(isLoading: $viewModel.isCategoriesRecipiesLoading)
-                
-                
             }
         }
     }
@@ -55,7 +52,7 @@ struct HomeView: View {
             title: "Comfort Food Classics",
             recipes: viewModel.classicsRecipies ?? []
         ) {
-            
+            coordinator.push(.classicRecipes)
         } 
     }
     
