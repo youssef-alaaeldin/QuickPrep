@@ -9,7 +9,7 @@ import Foundation
 import Factory
 import Combine
 
-class TrendingRecipesViewModel {
+class TrendingRecipesViewModel: ObservableObject {
     @Injected(\.recipiesUseCase) private var recipiesUseCase
     
     @Published var trendingRecipiesLoadingState: LoadingState<[Recipie]> = .loading
