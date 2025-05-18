@@ -46,7 +46,7 @@ struct HomeView: View {
             title: "Trending Recipes",
             recipes: viewModel.trendingRecipies ?? []
         ) {
-            
+            coordinator.push(.trendingRecipes)
         }
     }
     

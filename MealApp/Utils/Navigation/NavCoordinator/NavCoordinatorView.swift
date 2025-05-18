@@ -30,6 +30,7 @@ struct NavCoordinatorView: View {
                 }
         }
         .environmentObject(coordinator)
+        .navigationBarBackButtonHidden()
     }
 }
 

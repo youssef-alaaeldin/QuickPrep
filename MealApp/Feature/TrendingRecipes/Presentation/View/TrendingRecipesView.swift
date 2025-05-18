@@ -27,6 +27,7 @@ struct TrendingRecipesView: View {
                 trendingRecipes
                     .padding(.top, 20)
                     .padding(.horizontal, 16)
+                    .redactedLoading(isLoading: $viewModel.isTrendingRecipiesLoading)
             }
         }
         .edgesIgnoringSafeArea(.top)
@@ -37,6 +38,10 @@ struct TrendingRecipesView: View {
             Image(systemName: "chevron.left")
                 .resizable()
                 .frame(width: 15, height: 25)
+                .onTapGesture {
+                    coordinator.pop()
+                }
+            
             Spacer()
             
             Text("Trending Recipes")

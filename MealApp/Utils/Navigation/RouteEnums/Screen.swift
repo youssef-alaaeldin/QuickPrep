@@ -10,6 +10,8 @@ enum Screen {
     case onboarding
     case main
     case recipeDetails(recipe: Recipie)
+    case trendingRecipes
+    case classicRecipes
 }
 
 extension Screen: Identifiable {

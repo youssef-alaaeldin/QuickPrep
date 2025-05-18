@@ -19,6 +19,10 @@ extension NavCoordinator {
                 BottomTabsView()
             case .recipeDetails(let recipe):
                 RecipieDetailsView(recipie: recipe)
+            case .trendingRecipes:
+                TrendingRecipesView()
+            case .classicRecipes:
+                Text("Classic Recipes")
         }
     }
 }
