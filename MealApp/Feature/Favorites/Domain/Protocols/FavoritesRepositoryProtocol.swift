@@ -1,5 +1,5 @@
 //
-//  FavoritesRepository.swift
+//  FavoritesRepositoryProtocol.swift
 //  MealApp
 //
 //  Created by Yousuf Abdelfattah on 19/05/2025.

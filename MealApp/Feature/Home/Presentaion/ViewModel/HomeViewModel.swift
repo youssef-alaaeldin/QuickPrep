@@ -13,6 +13,7 @@ import Factory
 class HomeViewModel: ObservableObject {
     @Injected(\.recipiesUseCase) private var recipiesUseCase
     @Injected(\.categoriesUseCase) private var categoriesUseCase
+    @Injected(\.favoritesUseCase) private var favoritesUseCase
     
     @Published var categoriesLoadingState: LoadingState<[Categories]> = .loading
     @Published var trendingRecipiesLoadingState: LoadingState<[Recipie]> = .loading
@@ -143,7 +144,10 @@ extension HomeViewModel {
 
 extension HomeViewModel {
     func fetchTrendingRecipies() {
-        let request = RecipiesRequest(size: 10)
+        let request = RecipiesRequest(
+            from: 10,
+            size: 10
+        )
         recipiesUseCase.exectute(recipiesRequest: request) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -232,5 +236,17 @@ extension HomeViewModel {
             }
         }
         
+    }
+}
+
+// MARK: - Add to favorites
+
+extension HomeViewModel {
+    func toggleFavorite(recipe: Recipie) {
+        favoritesUseCase.toggleFavorite(recipe: recipe)
+    }
+
+    func isFavorite(recipe: Recipie) -> Bool {
+        favoritesUseCase.isFavorite(recipe: recipe)
     }
 }

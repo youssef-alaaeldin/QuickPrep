@@ -83,8 +83,14 @@ struct SearchView: View {
     private var searchRecipes: some View {
         LazyVStack(spacing: 24) {
             ForEach(viewModel.searchRecipes ?? [], id: \.id) { recipe in
-                LargeRecipeCardView(recipe: recipe) {
+                LargeRecipeCardView(
+                    isFavorited: viewModel.isFavorite(
+                        recipe: recipe
+                    ),
+                    recipe: recipe
+                ) {
                     // TODO: Fav Btn
+                    viewModel.toggleFavorite(recipe: recipe)
                 }
                 .onAppear {
                     if recipe == viewModel.searchRecipes?.last {

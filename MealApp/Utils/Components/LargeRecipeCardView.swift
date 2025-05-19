@@ -9,7 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct LargeRecipeCardView: View {
-    @State private var isFavorited: Bool = false
+    @State var isFavorited: Bool = false
     
     var recipe: Recipie
     var favBtnTapped: () -> Void
@@ -83,7 +83,7 @@ struct LargeRecipeCardView: View {
 }
 
 #Preview {
-    LargeRecipeCardView(recipe: Recipie.mock) {
+    LargeRecipeCardView(isFavorited: false, recipe: Recipie.mock) {
         
     }
         .padding(.horizontal, 16)

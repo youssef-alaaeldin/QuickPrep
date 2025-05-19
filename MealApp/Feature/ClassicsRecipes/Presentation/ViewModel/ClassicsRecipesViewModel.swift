@@ -11,7 +11,8 @@ import Factory
 
 class ClassicsRecipesViewModel: ObservableObject {
     @Injected(\.recipiesUseCase) private var recipiesUseCase
-    
+    @Injected(\.favoritesUseCase) private var favoritesUseCase
+
     @Published var classicsRecipiesLoadingState: LoadingState<[Recipie]> = .loading
     
     @Published var classicsRecipies: [Recipie]? = nil
@@ -92,3 +93,14 @@ extension ClassicsRecipesViewModel {
     }
 }
 
+// MARK: - Add to favorites
+
+extension ClassicsRecipesViewModel {
+    func toggleFavorite(recipe: Recipie) {
+        favoritesUseCase.toggleFavorite(recipe: recipe)
+    }
+
+    func isFavorite(recipe: Recipie) -> Bool {
+        favoritesUseCase.isFavorite(recipe: recipe)
+    }
+}

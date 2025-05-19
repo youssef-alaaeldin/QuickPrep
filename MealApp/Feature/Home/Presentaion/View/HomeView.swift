@@ -39,21 +39,53 @@ struct HomeView: View {
     }
     
     private var trendingRecipies: some View {
-        RecipeSectionView(
-            title: "Trending Recipes",
-            recipes: viewModel.trendingRecipies ?? []
-        ) {
-            coordinator.push(.trendingRecipes)
+        VStack(alignment: .leading, spacing: 9) {
+            TitleView(title: "Trending Recipes") {
+                coordinator.push(.trendingRecipes)
+            }
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 16) {
+                    ForEach(viewModel.trendingRecipies ?? [], id: \.id) { recipe in
+                        SmallRecipeCardView(isFavorited: viewModel.isFavorite(recipe: recipe), recipe: recipe) {
+                            // TODO: Fav btn
+                            viewModel.toggleFavorite(recipe: recipe)
+                        }
+                        .onTapGesture {
+                            coordinator.push(.recipeDetails(recipe: recipe))
+                        }
+                    }
+                }
+                .padding(.horizontal, 16)
+            }
+            .padding(.horizontal, -16)
         }
+        .padding(.horizontal, 16)
     }
     
     private var comfortFoodClassics: some View {
-        RecipeSectionView(
-            title: "Comfort Food Classics",
-            recipes: viewModel.classicsRecipies ?? []
-        ) {
-            coordinator.push(.classicRecipes)
-        } 
+        VStack(alignment: .leading, spacing: 9) {
+            TitleView(title: "Comfort Food Classics") {
+                coordinator.push(.classicRecipes)
+            }
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 16) {
+                    ForEach(viewModel.classicsRecipies ?? [], id: \.id) { recipe in
+                        SmallRecipeCardView(isFavorited: viewModel.isFavorite(recipe: recipe), recipe: recipe) {
+                            // TODO: Fav btn
+                            viewModel.toggleFavorite(recipe: recipe)
+                        }
+                        .onTapGesture {
+                            coordinator.push(.recipeDetails(recipe: recipe))
+                        }
+                    }
+                }
+                .padding(.horizontal, 16)
+            }
+            .padding(.horizontal, -16)
+        }
+        .padding(.horizontal, 16)
     }
     
     private var categoriesBar: some View {
@@ -91,8 +123,12 @@ struct HomeView: View {
         LazyVStack(spacing: 24, pinnedViews: [.sectionHeaders]) {
             Section {
                 ForEach(viewModel.categoryRecipies ?? [], id: \.id) { recipe in
-                    LargeRecipeCardView(recipe: recipe) {
+                    LargeRecipeCardView(
+                        isFavorited: viewModel.isFavorite(recipe: recipe),
+                        recipe: recipe
+                    ) {
                         // TODO: Fav button
+                        viewModel.toggleFavorite(recipe: recipe)
                     }
                     .onAppear {
                         if recipe == viewModel.categoryRecipies?.last {

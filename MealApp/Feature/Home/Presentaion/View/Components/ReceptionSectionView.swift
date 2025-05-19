@@ -9,11 +9,12 @@ import SwiftUI
 
 struct RecipeSectionView: View {
     @EnvironmentObject private var coordinator: NavCoordinator
-    
+    @State var isFavorited: Bool = false
     let title: String
     let recipes: [Recipie]
     
     let onViewAllTapped: () -> Void
+    var favBtnTapped: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 9) {
@@ -22,8 +23,9 @@ struct RecipeSectionView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 16) {
                     ForEach(recipes, id: \.id) { recipe in
-                        SmallRecipeCardView(recipe: recipe) {
+                        SmallRecipeCardView(isFavorited: isFavorited, recipe: recipe) {
                             // TODO: Fav btn
+                            favBtnTapped()
                         }
                         .onTapGesture {
                             coordinator.push(.recipeDetails(recipe: recipe))

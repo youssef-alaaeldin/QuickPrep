@@ -11,7 +11,7 @@ import SDWebImageSwiftUI
 
 struct SmallRecipeCardView: View {
     
-    @State private var isFavorited: Bool = false
+    @State var isFavorited: Bool = false
     
     var recipe: Recipie
     var favBtnTapped: () -> Void

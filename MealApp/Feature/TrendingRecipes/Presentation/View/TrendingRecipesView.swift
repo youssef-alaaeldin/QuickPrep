@@ -31,6 +31,7 @@ struct TrendingRecipesView: View {
             }
         }
         .edgesIgnoringSafeArea(.top)
+        .navigationBarBackButtonHidden()
     }
     
     private var topView: some View {
@@ -56,8 +57,13 @@ struct TrendingRecipesView: View {
     private var trendingRecipes: some View {
         LazyVStack(spacing: 24) {
             ForEach(viewModel.trendingRecipies ?? [], id: \.id) { recipe in
-                LargeRecipeCardView(recipe: recipe) {
-                    // TODO: Fav Btn
+                LargeRecipeCardView(
+                    isFavorited: viewModel.isFavorite(
+                        recipe: recipe
+                    ),
+                    recipe: recipe
+                ) {
+                    viewModel.toggleFavorite(recipe: recipe)
                 }
                 .onAppear {
                     if recipe == viewModel.trendingRecipies?.last {
