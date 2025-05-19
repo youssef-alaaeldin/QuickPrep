@@ -16,7 +16,6 @@ struct Recipie: Codable, Equatable {
     
     let approvedAt: Int?
     let aspectRatio: String?
-    let beautyURL, brand, brandID: String?
     let buzzID: Int?
     let canonicalID: String?
     let compilations: [Compilation]?
@@ -68,9 +67,6 @@ struct Recipie: Codable, Equatable {
     enum CodingKeys: String, CodingKey {
         case approvedAt = "approved_at"
         case aspectRatio = "aspect_ratio"
-        case beautyURL = "beauty_url"
-        case brand
-        case brandID = "brand_id"
         case buzzID = "buzz_id"
         case canonicalID = "canonical_id"
         case compilations

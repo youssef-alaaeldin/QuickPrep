@@ -12,7 +12,7 @@ enum Screen {
     case recipeDetails(recipe: Recipie)
     case trendingRecipes
     case classicRecipes
-    case searchRecipes
+    case searchRecipes(isComingFromHome: Bool)
 }
 
 extension Screen: Identifiable {

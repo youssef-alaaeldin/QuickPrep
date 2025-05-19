@@ -27,9 +27,6 @@ extension Recipie {
         Recipie(
             approvedAt: Int.random(in: 1600000000...1700000000),
             aspectRatio: "16:9",
-            beautyURL: "https://example.com/beauty.mp4",
-            brand: "MockBrand",
-            brandID: "brand_id_\(Int.random(in: 1...100))",
             buzzID: Int.random(in: 1...1000),
             canonicalID: "recipe_\(Int.random(in: 1...10000))",
             compilations: Compilation.mockArray(count: Int.random(in: 0...2)),

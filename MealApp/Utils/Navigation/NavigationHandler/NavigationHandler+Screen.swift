@@ -23,8 +23,8 @@ extension NavCoordinator {
                 TrendingRecipesView()
             case .classicRecipes:
                 ClassicsRecipesView()
-            case .searchRecipes:
-                SearchView()
+            case .searchRecipes(let comingFromHome):
+                SearchView(isComingFromHome: comingFromHome)
         }
     }
 }

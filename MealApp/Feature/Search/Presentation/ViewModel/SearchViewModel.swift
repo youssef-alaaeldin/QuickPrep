@@ -62,7 +62,6 @@ extension SearchViewModel {
             .sink { [weak self] value in
                 guard let self = self else { return }
                 
-                // If user clears the search bar
                 if value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     self.searchRecipes = nil
                     self.searchRecipesOffset = 0
@@ -70,7 +69,6 @@ extension SearchViewModel {
                     return
                 }
                 
-                // Only search when there's meaningful input
                 self.fetchRecipesBasedOnSearch()
             }
             .store(in: &cancellables)
@@ -83,7 +81,9 @@ extension SearchViewModel {
 extension SearchViewModel {
     func fetchRecipesBasedOnSearch(isPaginating: Bool = false) {
         guard !isFetchingMoreRecipies else { return }
-        searchRecipesLoadingState = .loading
+        if !isPaginating {
+            searchRecipesLoadingState = .loading
+        }
         isFetchingMoreRecipies = true
         let request = RecipiesRequest(
             from: isPaginating ? searchRecipesOffset : 0,

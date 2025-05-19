@@ -14,7 +14,10 @@ struct SearchView: View {
     
     @FocusState private var isSearchFieldFocused: Bool
     
-    init() {
+    var isComingFromHome: Bool
+    
+    init(isComingFromHome: Bool = false) {
+        self.isComingFromHome = isComingFromHome
         self._viewModel = StateObject(wrappedValue: .init())
     }
     
@@ -26,11 +29,13 @@ struct SearchView: View {
                 .background(.darkRed)
                 .foregroundStyle(.white)
             Spacer()
+            
             if viewModel.searchText.isEmpty {
                 Text("Start typing to search for recipes...")
                     .font(.text1)
                     .foregroundStyle(.blackishGrey)
             }
+            
             else {
                 ScrollView(.vertical, showsIndicators: false) {
                     searchRecipes
@@ -51,13 +56,14 @@ struct SearchView: View {
     private var topView: some View {
         VStack(spacing: 16) {
             HStack {
-                Image(systemName: "chevron.left")
-                    .resizable()
-                    .frame(width: 15, height: 25)
-                    .onTapGesture {
-                        coordinator.pop()
-                    }
-                
+                if isComingFromHome {
+                    Image(systemName: "chevron.left")
+                        .resizable()
+                        .frame(width: 15, height: 25)
+                        .onTapGesture {
+                            coordinator.pop()
+                        }
+                }
                 Spacer()
                 
                 Text("Search Dishes")

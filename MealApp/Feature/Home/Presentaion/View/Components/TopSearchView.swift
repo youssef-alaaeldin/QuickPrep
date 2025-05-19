@@ -30,7 +30,7 @@ struct TopSearchView: View {
         .onChange(of: isSearchFocused) { focused in
             if focused {
                 isSearchFocused = false
-                coordinator.push(.searchRecipes)
+                coordinator.push(.searchRecipes(isComingFromHome: true))
             }
         }
         .foregroundStyle(.white)
