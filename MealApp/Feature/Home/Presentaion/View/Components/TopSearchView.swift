@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct TopSearchView: View {
+    @EnvironmentObject private var coordinator: NavCoordinator
+    @FocusState private var isSearchFocused: Bool
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("Hello, Youssef!")
@@ -19,8 +22,16 @@ struct TopSearchView: View {
                 .font(.text1)
                 .padding(.bottom, 24)
             
-            SearchTextField()
+            SearchTextField(searchText: .constant(""))
+                .focused($isSearchFocused)
                 .padding(.bottom, 16)
+            
+        }
+        .onChange(of: isSearchFocused) { focused in
+            if focused {
+                isSearchFocused = false
+                coordinator.push(.searchRecipes)
+            }
         }
         .foregroundStyle(.white)
         .padding(.horizontal, 16)
@@ -35,3 +46,4 @@ struct TopSearchView: View {
 #Preview {
     TopSearchView()
 }
+

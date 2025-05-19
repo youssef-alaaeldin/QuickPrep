@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchTextField: View {
-    @State private var searchText: String = ""
+    @Binding var searchText: String
     
     var body: some View {
         HStack(spacing: 17) {
