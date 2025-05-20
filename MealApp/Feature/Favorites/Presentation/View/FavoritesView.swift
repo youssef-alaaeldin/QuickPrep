@@ -19,19 +19,20 @@ struct FavoritesView: View {
             Text("Saved Dishes")
                 .font(.heading2)
                 .foregroundStyle(.blackishGrey)
-                .padding(.top, 50)
+                .padding(.top, 60)
                 .padding(.horizontal, 16)
             
             if viewModel.favRecipes.isEmpty {
                 VStack(spacing: 16) {
                     Image(systemName: "heart.slash")
                         .font(.system(size: 40))
-                        .foregroundStyle(.gray)
+                        .foregroundStyle(.customGrey)
                     Text("No favorites yet.")
-                        .font(.subheadline)
-                        .foregroundStyle(.gray)
+                        .font(.text2)
+                        .foregroundStyle(.customGrey)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .animation(.easeInOut, value: viewModel.favRecipes)
             } else {
                 ScrollView {
                     LazyVStack(spacing: 24) {
@@ -48,9 +49,9 @@ struct FavoritesView: View {
                     .padding(.top, 20)
                     .padding(.horizontal, 16)
                 }
+                .animation(.easeInOut, value: viewModel.favRecipes)
             }
         }
-        .edgesIgnoringSafeArea(.top)
         .navigationBarBackButtonHidden()
         .onAppear {
             viewModel.getAllFav()
