@@ -21,7 +21,23 @@ final class FavoritesRepository: FavoritesRepositoryProtocol {
         entity.id = Int64(recipe.id ?? 0)
         entity.name = recipe.name ?? ""
         entity.thumbnail = recipe.thumbnailURL ?? ""
-
+        entity.desc = recipe.description ?? ""
+        entity.calories = Int64(recipe.nutrition?.calories ?? 0)
+        entity.price = Int64(recipe.price?.total ?? 0)
+        entity.rating = recipe.userRatings?.score ?? 0.0
+        entity.timeTaken = Int64(recipe.totalTimeMinutes ?? 30)
+        if let nutrition = try? JSONEncoder().encode(recipe.nutrition) {
+            entity.nutrition = nutrition
+        }
+        
+        if let instructions = try? JSONEncoder().encode(recipe.instructions) {
+            entity.instructions = instructions
+        }
+        
+        if let section = try? JSONEncoder().encode(recipe.sections) {
+            entity.sections = section
+        }
+        
         do {
             try context.save()
             print("✅ Saved recipe to favorites: \(recipe.name ?? "")")
@@ -68,8 +84,15 @@ final class FavoritesRepository: FavoritesRepositoryProtocol {
         do {
             let results = try context.fetch(request)
             print("📦 Fetched \(results.count) favorite recipes.")
+            
             return results.map {
-                Recipie(
+                let nutrition = try? JSONDecoder().decode(Nutrition.self, from: $0.nutrition ?? Data())
+                
+                let instructions = try? JSONDecoder().decode([Instruction].self, from: $0.instructions ?? Data())
+                
+                let sections = try? JSONDecoder().decode([MealSection].self, from: $0.sections ?? Data())
+                
+                return Recipie(
                     approvedAt: nil,
                     aspectRatio: nil,
                     buzzID: nil,
@@ -84,7 +107,7 @@ final class FavoritesRepository: FavoritesRepositoryProtocol {
                     facebookPosts: nil,
                     id: Int($0.id),
                     inspiredByURL: nil,
-                    instructions: nil,
+                    instructions: instructions,
                     isAppOnly: nil,
                     isOneTop: nil,
                     isShoppable: nil,
@@ -93,14 +116,20 @@ final class FavoritesRepository: FavoritesRepositoryProtocol {
                     language: nil,
                     name: $0.name,
                     numServings: nil,
-                    nutrition: nil,
+                    nutrition: nutrition,
                     nutritionVisibility: nil,
                     originalVideoURL: nil,
                     prepTimeMinutes: nil,
-                    price: nil,
+                    price: Price(
+                        consumptionPortion: nil,
+                        consumptionTotal: nil,
+                        portion: nil,
+                        total: Int($0.price),
+                        updatedAt: nil
+                    ),
                     promotion: nil,
                     renditions: nil,
-                    sections: nil,
+                    sections: sections,
                     seoPath: nil,
                     seoTitle: nil,
                     servingsNounPlural: nil,
@@ -113,10 +142,14 @@ final class FavoritesRepository: FavoritesRepositoryProtocol {
                     thumbnailURL: $0.thumbnail,
                     tipsAndRatingsEnabled: nil,
                     topics: nil,
-                    totalTimeMinutes: nil,
+                    totalTimeMinutes: Int($0.timeTaken),
                     totalTimeTier: nil,
                     updatedAt: nil,
-                    userRatings: nil,
+                    userRatings: UserRatings(
+                        countNegative: nil,
+                        countPositive: nil,
+                        score: $0.rating
+                    ),
                     videoAdContent: nil,
                     videoID: nil,
                     videoURL: nil,

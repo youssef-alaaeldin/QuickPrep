@@ -16,38 +16,13 @@ struct FavoritesView: View {
     }
     var body: some View {
         VStack {
-            Text("Saved Dishes")
-                .font(.heading2)
-                .foregroundStyle(.blackishGrey)
-                .padding(.top, 60)
-                .padding(.horizontal, 16)
+            topBar
             
             if viewModel.favRecipes.isEmpty {
-                VStack(spacing: 16) {
-                    Image(systemName: "heart.slash")
-                        .font(.system(size: 40))
-                        .foregroundStyle(.customGrey)
-                    Text("No favorites yet.")
-                        .font(.text2)
-                        .foregroundStyle(.customGrey)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .animation(.easeInOut, value: viewModel.favRecipes)
+                emptyFav
             } else {
                 ScrollView {
-                    LazyVStack(spacing: 24) {
-                        ForEach(viewModel.favRecipes, id: \.id) { recipe in
-                            LargeRecipeCardView(recipe: recipe) {
-                                viewModel.toggleFavorite(recipe: recipe)
-                                viewModel.getAllFav()
-                            }
-                            .onTapGesture {
-                                coordinator.push(.recipeDetails(recipe: recipe))
-                            }
-                        }
-                    }
-                    .padding(.top, 20)
-                    .padding(.horizontal, 16)
+                    favRecipes
                 }
                 .animation(.easeInOut, value: viewModel.favRecipes)
             }
@@ -56,6 +31,45 @@ struct FavoritesView: View {
         .onAppear {
             viewModel.getAllFav()
         }
+        
+    }
+    
+    private var topBar: some View {
+        Text("Saved Dishes")
+            .font(.heading2)
+            .foregroundStyle(.blackishGrey)
+            .padding(.top, 60)
+            .padding(.horizontal, 16)
+    }
+    
+    private var emptyFav: some View {
+        VStack(spacing: 16) {
+            Image(systemName: "heart.slash")
+                .font(.system(size: 40))
+                .foregroundStyle(.customGrey)
+            Text("No favorites yet.")
+                .font(.text2)
+                .foregroundStyle(.customGrey)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .animation(.easeInOut, value: viewModel.favRecipes)
+    }
+    
+    private var favRecipes: some View {
+        LazyVStack(spacing: 24) {
+            ForEach(viewModel.favRecipes, id: \.id) { recipe in
+                LargeRecipeCardView(recipe: recipe) {
+                    viewModel.toggleFavorite(recipe: recipe)
+                    viewModel.getAllFav()
+                }
+                .onTapGesture {
+                    coordinator.push(.recipeDetails(recipe: recipe))
+                }
+            }
+        }
+        .padding(.top, 20)
+        .padding(.horizontal, 16)
+        .padding(.bottom, 20)
     }
 }
 

@@ -63,7 +63,7 @@ extension TrendingRecipesViewModel {
         
         isFetchingMoreRecipies = true
         let request = RecipiesRequest(
-            from: isPaginating ? trendingRecipiesOffset : 0,
+            from: isPaginating ? trendingRecipiesOffset : 10,
             size: 10
         )
         
