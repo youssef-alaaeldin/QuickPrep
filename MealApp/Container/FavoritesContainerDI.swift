@@ -16,4 +16,8 @@ extension Container {
     var favoritesUseCase: Factory<FavoritesUseCaseProtocol> {
         Factory(self) { FavoritesUseCase() }
     }
+    
+    var favoritesObserver: Factory<FavoritesObserverViewModel> {
+        Factory(self) { FavoritesObserverViewModel() }.singleton
+    }
 }

@@ -10,10 +10,11 @@ import SwiftUI
 @main
 struct MealAppApp: App {
     @StateObject var coordinator = NavCoordinator()
+    @StateObject var favObserverViewModel = FavoritesObserverViewModel()
     
     var body: some Scene {
         WindowGroup {
-            NavCoordinatorView(coordinator: coordinator, rootView: .onboarding)
+            NavCoordinatorView(coordinator: coordinator, favObserverViewModel: favObserverViewModel, rootView: .onboarding)
         }
     }
 }

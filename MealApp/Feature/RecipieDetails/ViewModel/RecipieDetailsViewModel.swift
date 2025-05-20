@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import Factory
 
 class RecipieDetailsViewModel: ObservableObject {
+    @Injected(\.favoritesUseCase) var favoritesUseCase
+    
     @Published var selectedOption: RecipeOptions = .Ingredients
     @Published var formattedIngredients: [IngredientDisplay] = []
     @Published var instructions: [String] = []
@@ -46,3 +49,14 @@ class RecipieDetailsViewModel: ObservableObject {
     }
 }
 
+// MARK: - Add to favorites
+
+extension RecipieDetailsViewModel {
+    func toggleFavorite(recipe: Recipie) {
+        favoritesUseCase.toggleFavorite(recipe: recipe)
+    }
+
+    func isFavorite(recipe: Recipie) -> Bool {
+        favoritesUseCase.isFavorite(recipe: recipe)
+    }
+}

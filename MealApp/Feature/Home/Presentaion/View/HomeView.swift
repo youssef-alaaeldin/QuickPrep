@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject private var viewModel: HomeViewModel
     @EnvironmentObject private var coordinator: NavCoordinator
+    @EnvironmentObject private var favObserver: FavoritesObserverViewModel
     
+    @StateObject private var viewModel: HomeViewModel
+
     @Namespace private var categoryAnimation
 
     init() {
@@ -36,6 +38,9 @@ struct HomeView: View {
                     .redactedLoading(isLoading: $viewModel.isCategoriesRecipiesLoading)
             }
         }
+        .onAppear {
+            favObserver.refresh()
+        }
     }
     
     private var trendingRecipies: some View {
@@ -47,9 +52,14 @@ struct HomeView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 16) {
                     ForEach(viewModel.trendingRecipies ?? [], id: \.id) { recipe in
-                        SmallRecipeCardView(isFavorited: viewModel.isFavorite(recipe: recipe), recipe: recipe) {
+                        SmallRecipeCardView(
+                            isFavorited: favObserver.isFavorite(
+                                recipe: recipe
+                            ),
+                            recipe: recipe
+                        ) {
                             // TODO: Fav btn
-                            viewModel.toggleFavorite(recipe: recipe)
+                            favObserver.toggleFavorite(recipe: recipe)
                         }
                         .onTapGesture {
                             coordinator.push(.recipeDetails(recipe: recipe))
@@ -72,9 +82,9 @@ struct HomeView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 16) {
                     ForEach(viewModel.classicsRecipies ?? [], id: \.id) { recipe in
-                        SmallRecipeCardView(isFavorited: viewModel.isFavorite(recipe: recipe), recipe: recipe) {
+                        SmallRecipeCardView(isFavorited: favObserver.isFavorite(recipe: recipe), recipe: recipe) {
                             // TODO: Fav btn
-                            viewModel.toggleFavorite(recipe: recipe)
+                            favObserver.toggleFavorite(recipe: recipe)
                         }
                         .onTapGesture {
                             coordinator.push(.recipeDetails(recipe: recipe))
@@ -124,11 +134,11 @@ struct HomeView: View {
             Section {
                 ForEach(viewModel.categoryRecipies ?? [], id: \.id) { recipe in
                     LargeRecipeCardView(
-                        isFavorited: viewModel.isFavorite(recipe: recipe),
+                        isFavorited: favObserver.isFavorite(recipe: recipe),
                         recipe: recipe
                     ) {
                         // TODO: Fav button
-                        viewModel.toggleFavorite(recipe: recipe)
+                        favObserver.toggleFavorite(recipe: recipe)
                     }
                     .onAppear {
                         if recipe == viewModel.categoryRecipies?.last {

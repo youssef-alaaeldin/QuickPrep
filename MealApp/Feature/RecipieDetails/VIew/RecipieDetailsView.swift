@@ -10,6 +10,8 @@ import SDWebImageSwiftUI
 
 struct RecipieDetailsView: View {
     @EnvironmentObject private var coordinator: NavCoordinator
+    @EnvironmentObject private var favObserver: FavoritesObserverViewModel
+
     @StateObject private var viewModel: RecipieDetailsViewModel
     
     var recipie: Recipie
@@ -23,8 +25,13 @@ struct RecipieDetailsView: View {
         ScrollView {
             VStack(spacing: 0) {
                 
-                RecipieHeaderView(imageURL: recipie.thumbnailURL ?? "") {
-                    // Favorite button action
+                RecipieHeaderView(
+                    isFav: favObserver.isFavorite(
+                        recipe: recipie
+                    ),
+                    imageURL: recipie.thumbnailURL ?? ""
+                ) {
+                    favObserver.toggleFavorite(recipe: recipie)
                 } backBtnAction: {
                     coordinator.pop()
                 }
@@ -154,6 +161,7 @@ struct RecipieInfoView: View {
 // MARK: - Header View
 
 struct RecipieHeaderView: View {
+    @State var isFav: Bool = false
     var imageURL: String
     var favBtnAction: () -> Void
     var backBtnAction: () -> Void
@@ -187,14 +195,17 @@ struct RecipieHeaderView: View {
                 
                 Spacer()
                 
-                Button(action: favBtnAction) {
+                Button {
+                    isFav.toggle()
+                    favBtnAction()
+                } label: {
                     Circle()
                         .fill(Color.white)
                         .frame(width: 40, height: 40)
                         .overlay(
-                            Image(systemName: "heart")
+                            Image(systemName: isFav ? "heart.fill" : "heart")
                                 .foregroundColor(.red)
-                        )
+                            )
                 }
             }
             .padding(.horizontal)

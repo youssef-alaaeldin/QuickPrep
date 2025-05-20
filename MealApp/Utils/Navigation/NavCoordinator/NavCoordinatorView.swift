@@ -9,10 +9,12 @@ import SwiftUI
 
 struct NavCoordinatorView: View {
     @StateObject var coordinator: NavCoordinator
+    @StateObject var favObserverViewModel: FavoritesObserverViewModel
     var rootView: Screen
     
-    public init(coordinator: NavCoordinator, rootView: Screen) {
+    public init(coordinator: NavCoordinator,favObserverViewModel: FavoritesObserverViewModel ,rootView: Screen) {
         self._coordinator = StateObject(wrappedValue: coordinator)
+        self._favObserverViewModel = StateObject(wrappedValue: favObserverViewModel)
         self.rootView = rootView
     }
     
@@ -30,6 +32,7 @@ struct NavCoordinatorView: View {
                 }
         }
         .environmentObject(coordinator)
+        .environmentObject(favObserverViewModel)
         .navigationBarBackButtonHidden()
     }
 }
