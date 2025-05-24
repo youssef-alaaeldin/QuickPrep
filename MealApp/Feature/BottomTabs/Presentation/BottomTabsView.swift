@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct BottomTabsView: View {
-    init() {
-        setupTabBarAppearance()
-    }
+//    init() {
+//        setupTabBarAppearance()
+//    }
     var body: some View {
         
         TabView {
@@ -24,26 +24,21 @@ struct BottomTabsView: View {
         }
         .navigationBarBackButtonHidden()
         .tint(.darkRed)
+        .toolbarBackground(.ultraThinMaterial, for: .tabBar)
     }
     
-    private func setupTabBarAppearance() {
-        let appearance = UITabBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor.systemBackground
-        
-        appearance.shadowColor = UIColor.black.withAlphaComponent(0.3)
-        appearance.shadowImage = UIImage()
-        UITabBar.appearance().standardAppearance = appearance
-        if #available(iOS 15.0, *) {
-            UITabBar.appearance().scrollEdgeAppearance = appearance
-        }
-    }
-}
-
-struct FavoritesView: View {
-    var body: some View {
-        Text("Favorites Screen")
-    }
+//    private func setupTabBarAppearance() {
+//        let appearance = UITabBarAppearance()
+//        appearance.configureWithOpaqueBackground()
+//        appearance.backgroundColor = UIColor.systemBackground
+//        
+//        appearance.shadowColor = UIColor.black.withAlphaComponent(0.3)
+//        appearance.shadowImage = UIImage()
+//        UITabBar.appearance().standardAppearance = appearance
+//        if #available(iOS 15.0, *) {
+//            UITabBar.appearance().scrollEdgeAppearance = appearance
+//        }
+//    }
 }
 
 #Preview {
