@@ -16,7 +16,8 @@ QuickPrep is a sleek and intuitive recipe application built using SwiftUI. It al
 - **Coordinator Pattern**: Manages navigation flow in a modular and testable manner.
 - **Dependency Injection**: Factory-based DI system improves flexibility and testability.
 - **Unit Testing**: Core business logic and components are thoroughly tested for reliability.
-
+- **Pagination**: Recipes are fetched in batches for optimized performance and reduced load time.
+  
 ## Screenshots
 
 | ![1](Media/1.png) | ![2](Media/2.png) | ![3](Media/3.png) |
