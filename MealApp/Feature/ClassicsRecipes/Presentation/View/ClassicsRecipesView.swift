@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ClassicsRecipesView: View {
     @EnvironmentObject private var coordinator: NavCoordinator
+    @EnvironmentObject private var favObserverViewModel: FavoritesObserverViewModel
     
     @StateObject private var viewModel: ClassicsRecipesViewModel
     
@@ -58,10 +59,10 @@ struct ClassicsRecipesView: View {
         LazyVStack(spacing: 24) {
             ForEach(viewModel.classicsRecipies ?? [], id: \.id) { recipe in
                 LargeRecipeCardView(
-                    isFavorited: viewModel.isFavorite(recipe: recipe),
+                    isFavorited: favObserverViewModel.isFavorite(recipe: recipe),
                     recipe: recipe
                 ) {
-                    viewModel.toggleFavorite(recipe: recipe)
+                    favObserverViewModel.toggleFavorite(recipe: recipe)
                 }
                 .onAppear {
                     if recipe == viewModel.classicsRecipies?.last {

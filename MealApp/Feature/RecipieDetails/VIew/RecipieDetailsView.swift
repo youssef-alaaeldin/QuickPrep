@@ -10,7 +10,7 @@ import SDWebImageSwiftUI
 
 struct RecipieDetailsView: View {
     @EnvironmentObject private var coordinator: NavCoordinator
-//    @EnvironmentObject private var favObserver: FavoritesObserverViewModel
+    @EnvironmentObject private var favObserver: FavoritesObserverViewModel
 
     @StateObject private var viewModel: RecipieDetailsViewModel
     
@@ -26,10 +26,10 @@ struct RecipieDetailsView: View {
             VStack(spacing: 0) {
                 
                 RecipieHeaderView(
-                    isFav: .random(),
+                    isFav: favObserver.isFavorite(recipe: recipie),
                     imageURL: recipie.thumbnailURL ?? ""
                 ) {
-//                    favObserver.toggleFavorite(recipe: recipie)
+                    favObserver.toggleFavorite(recipe: recipie)
                 } backBtnAction: {
                     coordinator.pop()
                 }
