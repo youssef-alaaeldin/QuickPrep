@@ -66,15 +66,15 @@ Critical components are covered with unit tests to ensure app stability.
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/YOUR_USERNAME/quickprep.git
+    git clone https://github.com/youssef-alaaeldin/quickprep.git
     ```
 2. Navigate to the project directory:
     ```sh
-    cd quickprep
+    cd mealapp
     ```
 3. Open the project in Xcode:
     ```sh
-    open QuickPrep.xcodeproj
+    open MealApp.xcodeproj
     ```
 4. Install dependencies using CocoaPods or Swift Package Manager:
     ```sh
@@ -82,7 +82,7 @@ Critical components are covered with unit tests to ensure app stability.
     ```
 5. Open the `.xcworkspace` file in Xcode:
     ```sh
-    open QuickPrep.xcworkspace
+    open MealApp.xcworkspace
     ```
 
 ## Usage
