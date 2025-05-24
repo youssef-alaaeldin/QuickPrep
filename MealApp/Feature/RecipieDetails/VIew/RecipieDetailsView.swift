@@ -10,7 +10,7 @@ import SDWebImageSwiftUI
 
 struct RecipieDetailsView: View {
     @EnvironmentObject private var coordinator: NavCoordinator
-    @EnvironmentObject private var favObserver: FavoritesObserverViewModel
+//    @EnvironmentObject private var favObserver: FavoritesObserverViewModel
 
     @StateObject private var viewModel: RecipieDetailsViewModel
     
@@ -26,12 +26,10 @@ struct RecipieDetailsView: View {
             VStack(spacing: 0) {
                 
                 RecipieHeaderView(
-                    isFav: favObserver.isFavorite(
-                        recipe: recipie
-                    ),
+                    isFav: .random(),
                     imageURL: recipie.thumbnailURL ?? ""
                 ) {
-                    favObserver.toggleFavorite(recipe: recipie)
+//                    favObserver.toggleFavorite(recipe: recipie)
                 } backBtnAction: {
                     coordinator.pop()
                 }
@@ -49,15 +47,14 @@ struct RecipieDetailsView: View {
                     RoundedCorner(radius: 20, corners: [.topLeft, .topRight])
                         .fill(Color(.systemBackground))
                 )
-                .ignoresSafeArea(edges: .top)
                 .offset(y: -32)
                 
                 recipeOptionsView
                     .padding(.horizontal, 16)
             }
         }
-        .edgesIgnoringSafeArea(.top)
         .navigationBarBackButtonHidden()
+        .edgesIgnoringSafeArea(.top)
     }
     
     private var recipeOptionsView: some View {
@@ -77,6 +74,7 @@ struct RecipieDetailsView: View {
                 .transition(.asymmetric(insertion:.fade, removal: .fade))
             } header: {
                 RecipeOptionsBarView(selectedOption: $viewModel.selectedOption)
+                    .background(Color(.systemBackground))
             }
         }
     }
@@ -85,7 +83,7 @@ struct RecipieDetailsView: View {
         LazyVStack(alignment: .leading, spacing: 12) {
             ForEach(viewModel.formattedIngredients) { ingredient in
                 HStack {
-                    Text(ingredient.name)
+                    Text(ingredient.name.capitalized)
                         .foregroundStyle(.blackishGrey)
                     Spacer()
                     Text(ingredient.quantity)
@@ -141,10 +139,10 @@ struct RecipieInfoView: View {
                 .font(.text2)
                 .foregroundColor(.text)
             
-            HStack(spacing: 24) {
-                InfoPillView(icon: "clock.fill", title: time)
+            HStack(spacing: 28) {
+                InfoPillView(icon: "clock.fill", title: "\(time) mins")
                 Rectangle().frame(width: 2).foregroundStyle(.divider)
-                InfoPillView(icon: "flame.fill", title: calories)
+                InfoPillView(icon: "flame.fill", title: "\(calories) cal")
                 Rectangle().frame(width: 2).foregroundStyle(.divider)
                 InfoPillView(icon: "star.fill", title: rating)
             }
