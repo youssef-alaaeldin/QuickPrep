@@ -19,34 +19,14 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splashBg" translatesAutoresizingMaskIntoConstraints="NO" id="LE1-bz-m4U">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                             </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="22" translatesAutoresizingMaskIntoConstraints="NO" id="A5b-ni-q5Y">
-                                <rect key="frame" x="23" y="400.66666666666669" width="347.33333333333331" height="51"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="iyg-eW-uOm">
-                                        <rect key="frame" x="0.0" y="0.0" width="51" height="51"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="51" id="hDP-Xy-3vg"/>
-                                            <constraint firstAttribute="height" constant="51" id="kJe-da-jJQ"/>
-                                        </constraints>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QuickPrep" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AfP-Ip-nha">
-                                        <rect key="frame" x="73" y="0.0" width="274.33333333333331" height="51"/>
-                                        <fontDescription key="fontDescription" name="Aclonica-Regular" family="Aclonica" pointSize="48"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="A5b-ni-q5Y" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ESz-3f-LMh"/>
-                            <constraint firstItem="LE1-bz-m4U" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="GOw-lq-w95"/>
-                            <constraint firstItem="LE1-bz-m4U" firstAttribute="trailing" secondItem="Bcu-3y-fUS" secondAttribute="trailing" id="g49-t5-lHr"/>
-                            <constraint firstAttribute="bottom" secondItem="LE1-bz-m4U" secondAttribute="bottom" id="ikS-8V-ne8"/>
-                            <constraint firstItem="LE1-bz-m4U" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="rEE-zQ-jsp"/>
-                            <constraint firstItem="A5b-ni-q5Y" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="wa6-g1-3CB"/>
+                            <constraint firstItem="LE1-bz-m4U" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="Dw1-oC-O1z"/>
+                            <constraint firstItem="LE1-bz-m4U" firstAttribute="trailing" secondItem="Bcu-3y-fUS" secondAttribute="trailing" id="j02-es-sWw"/>
+                            <constraint firstItem="LE1-bz-m4U" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="p9v-wA-wIi"/>
+                            <constraint firstAttribute="bottom" secondItem="LE1-bz-m4U" secondAttribute="bottom" id="sJW-uu-PJS"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -56,7 +36,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="logo" width="52" height="52"/>
         <image name="splashBg" width="591" height="1280"/>
     </resources>
 </document>
