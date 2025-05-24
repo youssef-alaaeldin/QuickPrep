@@ -13,7 +13,7 @@ protocol RecipiesUseCaseProtocol {
 }
 
 class RecipiesUseCase: RecipiesUseCaseProtocol {
-    @Injected(\.recipiesRepository) private var recipiesRepository
+    @Injected(\.recipiesRepository) var recipiesRepository
     
     func exectute(recipiesRequest: RecipiesRequest, completion: @escaping (Result<RecipesResponse, any Error>) -> Void) {
         recipiesRepository.getAllRecipies(recipesRequest: recipiesRequest) { result in
