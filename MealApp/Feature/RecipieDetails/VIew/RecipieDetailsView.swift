@@ -27,7 +27,6 @@ struct RecipieDetailsView: View {
         ScrollView {
             ScrollViewReader { proxy in
                 VStack(spacing: 0) {
-                    // Scroll offset tracking
                     GeometryReader { geometry in
                         Color.clear
                             .preference(key: ScrollOffsetPreferenceKey.self,
@@ -35,11 +34,9 @@ struct RecipieDetailsView: View {
                     }
                     .frame(height: 0)
                     
-                    // Header image (without buttons)
                     RecipieHeaderView(imageURL: recipie.thumbnailURL ?? "")
                         .id("header")
                     
-                    // Recipe info section
                     RecipieInfoView(
                         title: recipie.name ?? "",
                         price: recipie.price?.total ?? 0,
@@ -55,7 +52,6 @@ struct RecipieDetailsView: View {
                     )
                     .offset(y: -32)
                     
-                    // Recipe options (ingredients/instructions/nutrition)
                     recipeOptionsView
                         .padding(.horizontal, 16)
                         .padding(.bottom, 20)
@@ -63,6 +59,11 @@ struct RecipieDetailsView: View {
                 .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
                     scrollOffset = value
                 }
+                
+                CustomButton(title: "Play Video") {
+                    coordinator.present(sheet: .videoPlayer(videURL: recipie.originalVideoURL ?? ""))
+                }
+                .padding(.horizontal, 16)
             }
         }
         .overlay(
