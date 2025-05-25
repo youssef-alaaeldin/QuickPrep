@@ -13,9 +13,10 @@ extension NavCoordinator {
     @ViewBuilder
     public func build(sheet: Sheet) -> some View {
         switch sheet {
-                
-        default:
-            EmptyView()
+            case .videoPlayer(let videoURL):
+                VideoPlayerView(videoURL: videoURL)
+            default:
+                EmptyView()
         }
     }
 }

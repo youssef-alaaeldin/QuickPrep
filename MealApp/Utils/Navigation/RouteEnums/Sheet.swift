@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum Sheet {
-    case test
+    case videoPlayer(videURL: String)
 }
 
 extension Sheet: Identifiable {
