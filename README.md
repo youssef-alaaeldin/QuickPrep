@@ -7,6 +7,7 @@ QuickPrep is a sleek and intuitive recipe application built using SwiftUI. It al
 - **Recipe Exploration**: Browse through a collection of curated recipes with detailed information.
 - **Nutritional Info & Pricing**: View estimated prices and nutritional breakdowns per recipe.
 - **Instructions & Ingredients**: Step-by-step cooking instructions and complete ingredient lists.
+- **Recipe Video Tutorial**: A tutorial video for the recipe.
 - **Favorites**: Save recipes to your personal favorites list for quick access later.
 - **Search**: Search recipes by name quickly and easily.
 - **Image Caching**: Smooth image loading and caching using SDWebImage for a better user experience.
@@ -24,9 +25,11 @@ QuickPrep is a sleek and intuitive recipe application built using SwiftUI. It al
 | --- | --- | --- |
 | ![4](Media/4.png) | ![5](Media/5.png) | ![6](Media/6.png) |
 | --- | --- | --- |
-| ![7](Media/7.png) | ![8](Media/8.png) | ![9](Media/9.png) |
+| ![7](Media/7.png) | ![14](Media/14.png) | ![8](Media/8.png) |
 | --- | --- | --- |
-| ![10](Media/10.png) | ![11](Media/11.png) | ![12](Media/12.png) |
+| ![10](Media/9.png) | ![11](Media/10.png) | ![12](Media/11.png) |
+| --- | --- | --- |
+| ![13](Media/12.png) | ![10](Media/13.png)
 
 ## Technologies Used
 
