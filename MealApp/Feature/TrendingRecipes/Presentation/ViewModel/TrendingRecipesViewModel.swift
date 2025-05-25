@@ -11,7 +11,6 @@ import Combine
 
 class TrendingRecipesViewModel: ObservableObject {
     @Injected(\.recipiesUseCase) private var recipiesUseCase
-    @Injected(\.favoritesUseCase) private var favoritesUseCase
 
     @Published var trendingRecipiesLoadingState: LoadingState<[Recipie]> = .loading
     
@@ -88,17 +87,5 @@ extension TrendingRecipesViewModel {
                 self.isFetchingMoreRecipies = false
             }
         }
-    }
-}
-
-// MARK: - Add to favorites
-
-extension TrendingRecipesViewModel {
-    func toggleFavorite(recipe: Recipie) {
-        favoritesUseCase.toggleFavorite(recipe: recipe)
-    }
-
-    func isFavorite(recipe: Recipie) -> Bool {
-        favoritesUseCase.isFavorite(recipe: recipe)
     }
 }
