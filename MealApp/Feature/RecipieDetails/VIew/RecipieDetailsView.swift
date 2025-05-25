@@ -11,8 +11,10 @@ import SDWebImageSwiftUI
 struct RecipieDetailsView: View {
     @EnvironmentObject private var coordinator: NavCoordinator
     @EnvironmentObject private var favObserver: FavoritesObserverViewModel
-
+    
     @StateObject private var viewModel: RecipieDetailsViewModel
+    
+    @State private var scrollOffset: CGFloat = 0
     
     var recipie: Recipie
     
@@ -23,37 +25,56 @@ struct RecipieDetailsView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 0) {
-                
-                RecipieHeaderView(
-                    isFav: favObserver.isFavorite(recipe: recipie),
-                    imageURL: recipie.thumbnailURL ?? ""
-                ) {
-                    favObserver.toggleFavorite(recipe: recipie)
-                } backBtnAction: {
-                    coordinator.pop()
+            ScrollViewReader { proxy in
+                VStack(spacing: 0) {
+                    // Scroll offset tracking
+                    GeometryReader { geometry in
+                        Color.clear
+                            .preference(key: ScrollOffsetPreferenceKey.self,
+                                        value: geometry.frame(in: .global).minY)
+                    }
+                    .frame(height: 0)
+                    
+                    // Header image (without buttons)
+                    RecipieHeaderView(imageURL: recipie.thumbnailURL ?? "")
+                        .id("header")
+                    
+                    // Recipe info section
+                    RecipieInfoView(
+                        title: recipie.name ?? "",
+                        price: recipie.price?.total ?? 0,
+                        desc: recipie.description ?? "",
+                        time: String(recipie.totalTimeMinutes ?? 0),
+                        calories: String(recipie.nutrition?.calories ?? 0),
+                        rating: String(format: "%.2f", recipie.userRatings?.score?.starRating ?? 0)
+                    )
+                    .padding(20)
+                    .background(
+                        RoundedCorner(radius: 20, corners: [.topLeft, .topRight])
+                            .fill(Color(.systemBackground))
+                    )
+                    .offset(y: -32)
+                    
+                    // Recipe options (ingredients/instructions/nutrition)
+                    recipeOptionsView
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 20)
                 }
-                
-                RecipieInfoView(
-                    title: recipie.name ?? "",
-                    price: recipie.price?.total ?? 0,
-                    desc: recipie.description ?? "",
-                    time: String(recipie.totalTimeMinutes ?? 0),
-                    calories: String(recipie.nutrition?.calories ?? 0),
-                    rating: String(format: "%.2f", recipie.userRatings?.score?.starRating ?? 0)
-                )
-                .padding(20)
-                .background(
-                    RoundedCorner(radius: 20, corners: [.topLeft, .topRight])
-                        .fill(Color(.systemBackground))
-                )
-                .offset(y: -32)
-                
-                recipeOptionsView
-                    .padding(.horizontal, 16)
+                .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
+                    scrollOffset = value
+                }
             }
         }
-        .navigationBarBackButtonHidden()
+        .overlay(
+            StickyNavBar(
+                isFav: favObserver.isFavorite(recipe: recipie),
+                showBackground: scrollOffset < -30,
+                backAction: { coordinator.pop() },
+                favAction: { favObserver.toggleFavorite(recipe: recipie) }
+            ),
+            alignment: .top
+        )
+        .navigationBarHidden(true)
         .edgesIgnoringSafeArea(.top)
     }
     
@@ -159,55 +180,19 @@ struct RecipieInfoView: View {
 // MARK: - Header View
 
 struct RecipieHeaderView: View {
-    @State var isFav: Bool = false
     var imageURL: String
-    var favBtnAction: () -> Void
-    var backBtnAction: () -> Void
     
     var body: some View {
-        ZStack(alignment: .top) {
-            Color.red.ignoresSafeArea()
-            
-            WebImage(url: URL(string: imageURL)) { image in
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .shadow(radius: 8)
-            } placeholder: {
-                Image(systemName: "photo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .shadow(radius: 8)
-            }
-            
-            HStack {
-                Button(action: backBtnAction) {
-                    Circle()
-                        .fill(Color.white)
-                        .frame(width: 40, height: 40)
-                        .overlay(
-                            Image(systemName: "chevron.left")
-                                .foregroundColor(.black)
-                        )
-                }
-                
-                Spacer()
-                
-                Button {
-                    isFav.toggle()
-                    favBtnAction()
-                } label: {
-                    Circle()
-                        .fill(Color.white)
-                        .frame(width: 40, height: 40)
-                        .overlay(
-                            Image(systemName: isFav ? "heart.fill" : "heart")
-                                .foregroundColor(.red)
-                            )
-                }
-            }
-            .padding(.horizontal)
-            .padding(.top, 60)
+        WebImage(url: URL(string: imageURL)) { image in
+            image
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .shadow(radius: 8)
+        } placeholder: {
+            Image(systemName: "photo")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .shadow(radius: 8)
         }
     }
 }
