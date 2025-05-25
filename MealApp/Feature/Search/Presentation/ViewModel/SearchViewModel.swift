@@ -10,9 +10,7 @@ import Combine
 import Factory
 
 class SearchViewModel: ObservableObject {
-    
     @Injected(\.recipiesUseCase) private var recipiesUseCase
-    @Injected(\.favoritesUseCase) private var favoritesUseCase
     
     @Published var searchText: String = ""
     @Published var searchRecipesLoadingState: LoadingState<[Recipie]> = .loading
@@ -113,17 +111,5 @@ extension SearchViewModel {
                 self.isFetchingMoreRecipies = false
             }
         }
-    }
-}
-
-// MARK: - Add to favorites
-
-extension SearchViewModel {
-    func toggleFavorite(recipe: Recipie) {
-        favoritesUseCase.toggleFavorite(recipe: recipe)
-    }
-
-    func isFavorite(recipe: Recipie) -> Bool {
-        favoritesUseCase.isFavorite(recipe: recipe)
     }
 }
